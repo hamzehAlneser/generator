@@ -1,0 +1,436 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethora Token Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/topbar.css">
+    <link rel="stylesheet" href="./css/notification.css">
+
+    <link rel="stylesheet" href="./css/generator.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h1>Ethora</h1>
+            </div>
+            <div class="app-version">v2.1.0</div>
+        </div>
+
+        <div class="nav-label">Main</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link active" id="dashboard-link">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="deploy.html" class="nav-link" id="token-generator-link">
+                    <i class="fas fa-fire"></i>
+                    <span>Token Generator</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-lock"></i>
+                    <span>Staking</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Live Pairs</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Tools</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>DEX Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Telegram Bot</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    <span>Contract Deploy</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Community</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community Hub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="top-bar">
+            <h1 class="page-title">Ethora Dashboard</h1>
+            <div class="wallet-container">
+                <button class="connect-wallet">
+                    <span class="wallet-text">Connect Wallet</span>
+                    <span class="wallet-icon"></span>
+                </button>
+                <div class="wallet-dropdown">
+                    <button class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask"
+                            width="24">
+                        MetaMask
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="walletconnect" disabled>
+                        <img src="https://walletconnect.com/walletconnect-logo.svg" alt="WalletConnect" width="24">
+                        WalletConnect (Coming Soon)
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="coinbase" disabled>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2821/2821637.png" alt="Coinbase" width="24">
+                        Coinbase (Coming Soon)
+                    </button>
+                </div>
+                <div class="wallet-address" style="display: none;">
+                    <span class="address-text">0x000...000</span>
+                    <button class="disconnect-wallet">Disconnect</button>
+                </div>
+            </div>
+        </div>
+        <div id="token-generator-content">
+            <div class="generator-section">
+                <div class="row" style="display: flex; align-items: unset; justify-content: space-between;">
+                    <div class="col">
+                        <h2 class="generator-title">
+                            <i class="fas fa-bolt"></i>
+                            Token Generator
+                        </h2>
+                    </div>
+                    <div class="col">
+                        <button class="deploy-btn" id="deploy-btn">
+                            <i class="fas fa-bolt"></i> Generate & Deploy Token
+                        </button>
+                    </div>
+                </div>
+
+                <div class="generator-grid">
+                    <div class="generator-card">
+                        <div class="generator-card-header">
+                            <div class="generator-card-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="generator-card-title">Token Details</h3>
+                        </div>
+                        <div class="generator-card-content">
+                            Configure your token's basic information and parameters for deployment on the Ethereum
+                            blockchain.
+                        </div>
+
+                        <div class="generator-form">
+                            <div class="form-group">
+                                <label for="token-name">Token Name</label>
+                                <input type="text" id="token-name" placeholder="e.g. My Crypto Token" value="CryptoGem">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="token-symbol">Token Symbol
+                                    <div class="info-icon" data-tooltip="Token symbol must be at least 3 characters">!
+                                    </div>
+                                </label>
+                                <input type="text" id="token-symbol" placeholder="e.g. MCT" value="GEM" maxlength="6">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total-supply">Total Supply</label>
+                                <input type="number" id="total-supply" placeholder="e.g. 1000000" value="1000000">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="decimals">Decimals
+                                    <div class="info-icon"
+                                        data-tooltip="9 decimals recommended for tokens with high supply">!</div>
+                                </label>
+                                <select id="decimals">
+                                    <option value="9" selected>9 Decimals (Recommended)</option>
+                                    <option value="18">18 Decimals (Standard)</option>
+                                    <option value="6">6 Decimals</option>
+                                    <option value="0">0 Decimals (NFT-like)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="generator-card">
+                        <div class="generator-card-header">
+                            <div class="generator-card-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3 class="generator-card-title">Tokenomics</h3>
+                        </div>
+                        <div class="generator-card-content">
+                            Set up your token's economic model including taxes, limits, and distribution parameters.
+                        </div>
+
+                        <div class="generator-form">
+                            <div class="form-group">
+                                <label for="buy-tax">Buy Tax (%)</label>
+                                <input type="number" id="buy-tax" placeholder="e.g. 5" value="5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sell-tax">Sell Tax (%)</label>
+                                <input type="number" id="sell-tax" placeholder="e.g. 5" value="5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="max-wallet">Max Wallet (%)</label>
+                                <input type="number" id="max-wallet" placeholder="e.g. 2" value="2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="max-tx">Max Transaction (%)</label>
+                                <input type="number" id="max-tx" placeholder="e.g. 1" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="generator-card">
+                        <div class="generator-card-header">
+                            <div class="generator-card-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3 class="generator-card-title">Liquidity</h3>
+                        </div>
+                        <div class="generator-card-content">
+                            Add initial liquidity to ensure smooth trading and set up token pairings.
+                        </div>
+
+                        <div class="generator-form">
+                            <div class="form-group">
+                                <label for="liquidity-eth">Liquidity (ETH)</label>
+                                <input type="number" id="liquidity-eth" placeholder="e.g. 0.5" value="0.5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lp-percentage">Liquidity Percentage</label>
+                                <input type="number" id="lp-percentage" placeholder="e.g. 60" value="60">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="marketing-wallet">Tax Receiver Wallet</label>
+                                <input type="text" id="marketing-wallet" placeholder="Wallet address" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="token-type">Token Type</label>
+                                <select id="token-type">
+                                    <option value="utility" selected>Utility Token</option>
+                                    <option value="meme">Meme Token</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="token-preview">
+                        <div class="token-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>CryptoGem (GEM)</h3>
+                        <p class="token-value">100% of supply created</p>
+
+                        <div class="token-details">
+                            <div class="token-detail">
+                                <span class="token-label">Supply:</span>
+                                <span class="token-value">1,000,000</span>
+                            </div>
+                            <div class="token-detail">
+                                <span class="token-label">Decimals:</span>
+                                <span class="token-value">9</span>
+                            </div>
+                            <div class="token-detail">
+                                <span class="token-label">Buy Tax:</span>
+                                <span class="token-value">5%</span>
+                            </div>
+                            <div class="token-detail">
+                                <span class="token-label">Sell Tax:</span>
+                                <span class="token-value">5%</span>
+                            </div>
+                            <div class="token-detail">
+                                <span class="token-label">Liquidity:</span>
+                                <span class="token-value">0.5 ETH</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-title">Estimated Cost</div>
+                        <div class="stat-number" id="estimated-cost">0.015 ETH</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Gas Fee</div>
+                        <div class="stat-number" id="gas-fee">0.002 ETH</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Market Cap</div>
+                        <div class="stat-number" id="market-cap">$1,500</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Token Price</div>
+                        <div class="stat-number" id="token-price">$0.0015</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Deployment Modal -->
+    <div class="deployment-modal" id="deployment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Token Deployment Process</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="deployment-steps">
+                <div class="step" id="step1">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Preparing</div>
+                        <div class="step-description">Verifying user inputs and setup configurations. Authenticating
+                            your MetaMask connection. Generating contract.</div>
+                    </div>
+                </div>
+
+                <div class="step" id="step2">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Deploying & Verifying</div>
+                        <div class="step-description">Waiting for your confirmation. Deploying contract on the
+                            blockchain. Requesting contract verification.</div>
+                    </div>
+                </div>
+
+                <div class="step" id="step3">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Adding & Burning Liquidity</div>
+                        <div class="step-description">Integrating with Uniswap. Adding and burning liquidity. Opening
+                            trading.</div>
+                    </div>
+                </div>
+
+                <div class="step" id="step4">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Completing and Verifying Functionality</div>
+                        <div class="step-description">Checking contract functionality. Checking Token Supply &
+                            Distribution. Confirming all transactions are executed correctly.</div>
+                    </div>
+                </div>
+
+                <div class="step" id="step5">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Finalizing</div>
+                        <div class="step-description">Finalizing your token deployment and ensuring seamless delivery.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deployment-links" id="deployment-links" style="display: none;">
+                <a href="#" class="deployment-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    View on Etherscan
+                </a>
+                <a href="#" class="deployment-link">
+                    <i class="fas fa-chart-line"></i>
+                    View on Dextools
+                </a>
+                <a href="#" class="deployment-link">
+                    <i class="fas fa-sync"></i>
+                    Add to MetaMask
+                </a>
+                <a href="#" class="deployment-link">
+                    <i class="fab fa-telegram"></i>
+                    Configure Telegram Bot
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="/js/shared/shared.js"></script>
+    <script type="module" src="/js/shared/load-components.js"></script>
+
+    <!-- Ethers.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+        type="application/javascript"></script>
+
+    <script src="/js/generator.js"></script>
+</body>
+
+
+</html>

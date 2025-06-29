@@ -1,0 +1,45 @@
+:root {
+    /* Vibrant color palette */
+    --primary: #6e3bff;
+    --primary-dark: #4a1fd1;
+    --primary-light: #f0ebff;
+    --accent-1: #00f0ff;
+    --accent-2: #ff3d8b;
+    --accent-3: #ffb800;
+    --dark: #1a1a2e;
+    --darker: #0d0d1a;
+    --light: #ffffff;
+    --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent-1) 100%);
+
+    /* Text colors */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #ffffff;
+
+    /* Utility colors */
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --info: #17a2b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--darker), var(--dark));
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    line-height: 1.6;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+}

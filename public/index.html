@@ -1,0 +1,373 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethora Token Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/topbar.css">
+    <link rel="stylesheet" href="./css/notification.css">
+
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h1>Ethora</h1>
+            </div>
+            <div class="app-version">v2.1.0</div>
+        </div>
+
+        <div class="nav-label">Main</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" id="dashboard-link">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="deploy.html" class="nav-link" id="token-generator-link">
+                    <i class="fas fa-fire"></i>
+                    <span>Token Generator</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-lock"></i>
+                    <span>Staking</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Live Pairs</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Tools</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>DEX Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Telegram Bot</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    <span>Contract Deploy</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Community</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community Hub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="page-title">Ethora Dashboard</h1>
+            <div class="wallet-container">
+                <button class="connect-wallet">
+                    <span class="wallet-text">Connect Wallet</span>
+                    <span class="wallet-icon"></span>
+                </button>
+                <div class="wallet-dropdown">
+                    <button class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask"
+                            width="24">
+                        MetaMask
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="walletconnect" disabled>
+                        <img src="https://walletconnect.com/walletconnect-logo.svg" alt="WalletConnect" width="24">
+                        WalletConnect (Coming Soon)
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="coinbase" disabled>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2821/2821637.png" alt="Coinbase" width="24">
+                        Coinbase (Coming Soon)
+                    </button>
+                </div>
+                <div class="wallet-address" style="display: none;">
+                    <span class="address-text">0x000...000</span>
+                    <button class="disconnect-wallet">Disconnect</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboard-content">
+            <!-- Live Pairs Section -->
+            <div class="live-pairs-container">
+                <div class="live-pairs-header">
+                    <h2 class="live-pairs-title">Live Trading Pairs</h2>
+                    <button class="connect-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+
+                <table class="live-pairs-table">
+                    <thead>
+                        <tr>
+                            <th>Pair</th>
+                            <th>Price</th>
+                            <th>24h Change</th>
+                            <th>Volume (24h)</th>
+                            <th>Liquidity</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="pair-info">
+                                    <div class="pair-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <span>GEM/ETH</span>
+                                </div>
+                            </td>
+                            <td>0.000012 ETH</td>
+                            <td class="price-change positive">+12.4%</td>
+                            <td>$1,245,678</td>
+                            <td>$2,567,890</td>
+                            <td>5 min ago</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pair-info">
+                                    <div class="pair-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <span>ETHORA/ETH</span>
+                                </div>
+                            </td>
+                            <td>0.000087 ETH</td>
+                            <td class="price-change negative">-3.2%</td>
+                            <td>$987,654</td>
+                            <td>$3,210,987</td>
+                            <td>12 min ago</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pair-info">
+                                    <div class="pair-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <span>DEFI/ETH</span>
+                                </div>
+                            </td>
+                            <td>0.000045 ETH</td>
+                            <td class="price-change positive">+7.8%</td>
+                            <td>$876,543</td>
+                            <td>$1,234,567</td>
+                            <td>18 min ago</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pair-info">
+                                    <div class="pair-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <span>BLUE/ETH</span>
+                                </div>
+                            </td>
+                            <td>0.000032 ETH</td>
+                            <td class="price-change positive">+2.1%</td>
+                            <td>$765,432</td>
+                            <td>$1,098,765</td>
+                            <td>25 min ago</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pair-info">
+                                    <div class="pair-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <span>MOON/ETH</span>
+                                </div>
+                            </td>
+                            <td>0.000019 ETH</td>
+                            <td class="price-change negative">-5.6%</td>
+                            <td>$654,321</td>
+                            <td>$987,654</td>
+                            <td>32 min ago</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="feature-cards">
+                <div class="feature-card" id="feature-generator">
+                    <div class="feature-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3 class="feature-title">Token Generator</h3>
+                    <p class="feature-description">Create and deploy your custom token with advanced tokenomics</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="feature-title">Staking</h3>
+                    <p class="feature-description">Earn rewards by staking your tokens securely</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">DEX Analytics</h3>
+                    <p class="feature-description">Track liquidity, volume, and price movements</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Telegram Bot</h3>
+                    <p class="feature-description">Deploy tokens and manage communities via Telegram</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">Contract Deploy</h3>
+                    <p class="feature-description">Deploy custom smart contracts for DeFi applications</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="card-title">Staking Platform</h3>
+                    </div>
+                    <div class="card-content">
+                        Stake your tokens to earn rewards. Flexible staking options with competitive APY rates.
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">12.5%</div>
+                            <div class="stat-label">Avg. APY</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$1.2M</div>
+                            <div class="stat-label">TVL</div>
+                        </div>
+                    </div>
+                    <button class="card-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        View Staking
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="card-title">Live Pairs</h3>
+                    </div>
+                    <div class="card-content">
+                        Track the latest token pairs on Uniswap with real-time analytics and trading volume.
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">24.5K</div>
+                            <div class="stat-label">Pairs</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$42M</div>
+                            <div class="stat-label">Volume</div>
+                        </div>
+                    </div>
+                    <button class="card-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        Explore Pairs
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">DEX Analytics</h3>
+                    </div>
+                    <div class="card-content">
+                        Advanced analytics for decentralized exchanges. Track liquidity, volume, and price movements.
+                    </div>
+                    <button class="card-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        View Analytics
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/shared/shared.js"></script>
+    <script type="module" src="/js/shared/load-components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+        type="application/javascript"></script>
+
+    <script src="/js/index.js"></script>
+</body>
+
+
+</html>

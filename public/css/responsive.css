@@ -1,0 +1,97 @@
+@media (max-width: 1200px) {
+    .feature-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 80px;
+    }
+
+    .logo h1,
+    .nav-label,
+    .nav-link span {
+        display: none;
+    }
+
+    .logo {
+        justify-content: center;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: 15px;
+    }
+
+    .nav-link i {
+        margin-right: 0;
+        font-size: 1.4rem;
+    }
+
+    .main-content {
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 900px) {
+    .feature-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .wallet-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .generator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .generator-form {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .generator-section {
+        padding: 20px;
+    }
+
+    .deploy-btn {
+        width: 100%;
+        padding: 15px;
+    }
+}

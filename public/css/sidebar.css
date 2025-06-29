@@ -1,0 +1,123 @@
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    background: rgba(26, 26, 46, 0.8);
+    border-right: 1px solid var(--primary);
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.logo-container {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-right: 15px;
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+.app-version {
+    font-size: 0.8rem;
+    color: var(--accent-1);
+    opacity: 0.7;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0 15px;
+}
+
+.nav-item {
+    margin-bottom: 8px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(110, 59, 255, 0.2);
+    color: var(--accent-1);
+}
+
+.nav-link.active {
+    border-left: 3px solid var(--accent-1);
+}
+
+.nav-label {
+    margin: 20px 15px 10px;
+    font-size: 0.85rem;
+    color: var(--accent-1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(110, 59, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--accent-1);
+    border: 1px solid var(--primary);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.social-link:hover {
+    background: rgba(0, 240, 255, 0.2);
+    transform: translateY(-3px);
+}
