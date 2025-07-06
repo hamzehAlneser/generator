@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Verification | Dexil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/topbar.css">
+    <link rel="stylesheet" href="./css/notification.css">
+    <style>
+        /* Verification Container */
+        .verification-container {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .verification-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .verification-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .verification-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Verification Form */
+        .verification-form {
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contract-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contract-input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(110, 59, 255, 0.3);
+        }
+
+        .verify-btn {
+            padding: 15px 30px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verify-btn:hover {
+            background: linear-gradient(90deg, var(--accent-1), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 59, 255, 0.4);
+        }
+
+        .verify-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Verification Result */
+        .verification-result {
+            display: none;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .verified .result-icon {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--success);
+        }
+
+        .not-verified .result-icon {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .result-details {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            width: 150px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            flex: 1;
+            word-break: break-all;
+        }
+
+        .contract-link {
+            color: var(--accent-1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contract-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Chain Selection */
+        .chain-selection {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chain-btn {
+            padding: 10px 20px;
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chain-btn.active {
+            background: var(--gradient);
+            border-color: transparent;
+        }
+
+        .chain-btn:hover:not(.active) {
+            background: rgba(110, 59, 255, 0.3);
+        }
+
+        .chain-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .verification-container {
+                padding: 25px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .verify-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h1>Dexil</h1>
+            </div>
+            <div class="app-version">v2.1.0</div>
+        </div>
+
+        <div class="nav-label">Main</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link" id="token-generator-link">
+                    <i class="fas fa-fire"></i>
+                    <span>Token Generator</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-lock"></i>
+                    <span>Staking</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="livePairs.html" class="nav-link" id="pairs-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Live Pairs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="verify.html" class="nav-link" id="validate-link">
+                    <i class="fas fa-check"></i>
+                    <span>Validate</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Tools</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>DEX Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="bot.html" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Telegram Bot</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    <span>Contract Deploy</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Community</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community Hub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="page-title">Dexil Dashboard</h1>
+            <div class="wallet-container">
+                <button class="connect-wallet">
+                    <span class="wallet-text">Connect Wallet</span>
+                    <span class="wallet-icon"></span>
+                </button>
+                <div class="wallet-dropdown">
+                    <button class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask"
+                            width="24">
+                        MetaMask
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="walletconnect" disabled>
+                        <img src="https://walletconnect.com/walletconnect-logo.svg" alt="WalletConnect" width="24">
+                        WalletConnect (Coming Soon)
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="coinbase" disabled>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2821/2821637.png" alt="Coinbase" width="24">
+                        Coinbase (Coming Soon)
+                    </button>
+                </div>
+                <div class="wallet-address" style="display: none;">
+                    <span class="address-text">0x000...000</span>
+                    <button class="disconnect-wallet">Disconnect</button>
+                </div>
+            </div>
+        </div>
+        <div class="verification-container">
+            <div class="verification-header">
+                <h1>Contract Verification</h1>
+                <p>Verify if a token contract was deployed through Dexil</p>
+            </div>
+
+
+            <div class="verification-form">
+                <div class="input-group">
+                    <input type="text" class="contract-input" placeholder="Enter contract address (0x...)"
+                        id="contractAddress">
+                    <button class="verify-btn" id="verifyBtn">
+                        <i class="fas fa-search"></i>
+                        Verify
+                    </button>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Example: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e
+                </p>
+            </div>
+
+            <!-- Verification Result (Initially hidden) -->
+            <div class="verification-result verified" id="verifiedResult" style="display: none;">
+                <div class="result-header">
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2 class="result-title">Contract Verified</h2>
+                </div>
+                <p>This contract was deployed through Dexil Token Generator.</p>
+                <div class="result-details">
+                    <div class="detail-row">
+                        <div class="detail-label">Contract Address:</div>
+                        <div class="detail-value">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Token Name:</div>
+                        <div class="detail-value">Dexil Token</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Token Symbol:</div>
+                        <div class="detail-value">ETHA</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Deployment Date:</div>
+                        <div class="detail-value">June 15, 2023</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Explorer:</div>
+                        <div class="detail-value">
+                            <a href="#" class="contract-link" target="_blank">View on Etherscan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="verification-result not-verified" id="notVerifiedResult" style="display: none;">
+                <div class="result-header">
+                    <div class="result-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h2 class="result-title">Contract Not Verified</h2>
+                </div>
+                <p>This contract was not deployed through Dexil Token Generator.</p>
+                <div class="result-details">
+                    <div class="detail-row">
+                        <div class="detail-label">Contract Address:</div>
+                        <div class="detail-value">0x0000000000000000000000000000000000000000</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Note:</div>
+                        <div class="detail-value">This contract may still be valid, but it wasn't created using our
+                            platform.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/shared/shared.js"></script>
+    <script type="module" src="/js/shared/load-components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+        type="application/javascript"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validateLink = document.getElementById('validate-link');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            validateLink.classList.add('active');
+
+            const verifyBtn = document.getElementById('verifyBtn');
+            const contractInput = document.getElementById('contractAddress');
+            const verifiedResult = document.getElementById('verifiedResult');
+            const notVerifiedResult = document.getElementById('notVerifiedResult');
+            const chainButtons = document.querySelectorAll('.chain-btn');
+
+            // Chain selection
+            chainButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    chainButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Verification logic
+            verifyBtn.addEventListener('click', async function () {
+                const contractAddress = contractInput.value.trim();
+
+                // Simple validation
+                if (!contractAddress || !contractAddress.startsWith('0x') || contractAddress.length !== 42) {
+                    alert('Please enter a valid contract address');
+                    return;
+                }
+
+                // Show loading state
+                verifyBtn.disabled = true;
+                verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+                var validateResponse = await window.app.apiClient.post("code/isDeployedByUs", { address: contractAddress })
+
+                const isVerified = validateResponse.data
+
+                if (isVerified) {
+                    verifiedResult.style.display = 'block';
+                    notVerifiedResult.style.display = 'none';
+
+                    // Update details with the entered address
+                    const addressElements = verifiedResult.querySelectorAll('.detail-value');
+                    addressElements[0].textContent = contractAddress;
+                } else {
+                    notVerifiedResult.style.display = 'block';
+                    verifiedResult.style.display = 'none';
+
+                    // Update details with the entered address
+                    const addressElements = notVerifiedResult.querySelectorAll('.detail-value');
+                    addressElements[0].textContent = contractAddress;
+                }
+
+                // Reset button
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fas fa-search"></i> Verify';
+            });
+        });
+    </script>
+</body>
+
+</html>

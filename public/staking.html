@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypton Staking | Web3 Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/topbar.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="app-name">
+                    <h1>Crypton Staking</h1>
+                    <div class="app-version">v3.0.0</div>
+                </div>
+            </div>
+
+            <div class="wallet-container">
+                <div class="network-indicator">
+                    <i class="fas fa-circle"></i>
+                    <span>Polygon Mainnet</span>
+                </div>
+                <button class="connect-btn" id="connect-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+                <div class="wallet-address" id="wallet-address" style="display: none;">
+                    <i class="fas fa-wallet"></i>
+                    <span id="address-text">0x742d...f44e</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Stake Tokens Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2 class="card-title">Stake CRN Tokens</h2>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="fixed">Fixed Staking</div>
+                    <div class="tab" data-tab="flexible">Flexible Staking</div>
+                </div>
+
+                <!-- Fixed Staking Content -->
+                <div class="tab-content active" id="fixed-staking">
+                    <div class="stake-options">
+                        <div class="stake-option" data-duration="2592000" data-apr="5">
+                            <div class="stake-duration">1 Month</div>
+                            <div class="stake-apr">5% APR</div>
+                            <div class="stake-reward">~4,110 CRN reward</div>
+                        </div>
+                        <div class="stake-option" data-duration="7776000" data-apr="12">
+                            <div class="stake-duration">3 Months</div>
+                            <div class="stake-apr">12% APR</div>
+                            <div class="stake-reward">~29,589 CRN reward</div>
+                        </div>
+                        <div class="stake-option" data-duration="15552000" data-apr="20">
+                            <div class="stake-duration">6 Months</div>
+                            <div class="stake-apr">20% APR</div>
+                            <div class="stake-reward">~98,630 CRN reward</div>
+                        </div>
+                        <div class="stake-option" data-duration="31536000" data-apr="30">
+                            <div class="stake-duration">1 Year</div>
+                            <div class="stake-apr">30% APR</div>
+                            <div class="stake-reward">~300,000 CRN reward</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount to Stake (Minimum 5,000 CRN)</label>
+                        <div class="input-group">
+                            <input type="number" id="stakeAmount" placeholder="Enter CRN amount">
+                            <button class="max-btn" id="maxButton">MAX</button>
+                        </div>
+                        <div class="balance-info">
+                            <span>Available: <span id="availableBalance">0</span> CRN</span>
+                            <span>Est. Reward: <span id="estimatedReward">0</span> CRN</span>
+                        </div>
+                    </div>
+
+                    <button class="stake-btn" id="stakeButton" disabled>
+                        <i class="fas fa-lock"></i> Confirm Stake
+                    </button>
+                </div>
+
+                <!-- Flexible Staking Content -->
+                <div class="tab-content" id="flexible-staking">
+                    <div class="stake-option selected" style="margin-bottom: 25px;">
+                        <div class="stake-duration">Flexible Staking</div>
+                        <div class="stake-apr">2.5% APR</div>
+                        <div class="stake-reward">Unstake anytime with 6-hour unbonding period</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount to Stake (No minimum)</label>
+                        <div class="input-group">
+                            <input type="number" id="flexibleAmount" placeholder="Enter CRN amount">
+                            <button class="max-btn" id="flexibleMaxButton">MAX</button>
+                        </div>
+                        <div class="balance-info">
+                            <span>Available: <span id="flexibleAvailable">0</span> CRN</span>
+                            <span>Est. Daily Reward: <span id="dailyReward">0</span> CRN</span>
+                        </div>
+                    </div>
+
+                    <button class="stake-btn" id="flexibleStakeButton" disabled>
+                        <i class="fas fa-lock"></i> Stake Flexibly
+                    </button>
+                </div>
+            </div>
+
+            <!-- My Stakes Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="card-title">My Stakes</h2>
+                </div>
+
+                <div class="stakes-list" id="stakesList">
+                    <div class="empty-stakes">No active stakes found. Stake tokens to start earning rewards!</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Crypton Staking Platform - High Yield Web3 Staking</p>
+            <div class="contract-links">
+                <a href="#" class="contract-link" target="_blank">CRN Token Contract</a>
+                <a href="#" class="contract-link" target="_blank">Staking Contract</a>
+                <a href="#" class="contract-link" target="_blank">Audit Report</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="wallet-modal" id="wallet-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Connect Wallet</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <p>Connect your wallet to stake CRN tokens</p>
+
+            <div class="wallet-option" id="metamask-option">
+                <i class="fab fa-metamask wallet-icon"></i>
+                <div class="wallet-name">MetaMask</div>
+            </div>
+
+            <div class="wallet-option" id="walletconnect-option">
+                <i class="fas fa-wallet wallet-icon"></i>
+                <div class="wallet-name">WalletConnect</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon"></div>
+        <div class="notification-content">
+            <span id="notification-message">Transaction successful!</span>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let isConnected = false;
+        const walletAddress = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
+        let selectedStakeOption = null;
+        let userAccount = null;
+        let crnBalance = 50000; // 50,000 CRN for demo
+
+        // DOM Elements
+        const connectBtn = document.getElementById('connect-btn');
+        const walletAddressEl = document.getElementById('wallet-address');
+        const addressText = document.getElementById('address-text');
+        const stakeAmount = document.getElementById('stakeAmount');
+        const maxButton = document.getElementById('maxButton');
+        const availableBalance = document.getElementById('availableBalance');
+        const estimatedReward = document.getElementById('estimatedReward');
+        const stakeButton = document.getElementById('stakeButton');
+        const stakesList = document.getElementById('stakesList');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const notificationIcon = document.getElementById('notification-icon');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const flexibleAmount = document.getElementById('flexibleAmount');
+        const flexibleMaxButton = document.getElementById('flexibleMaxButton');
+        const flexibleAvailable = document.getElementById('flexibleAvailable');
+        const dailyReward = document.getElementById('dailyReward');
+        const flexibleStakeButton = document.getElementById('flexibleStakeButton');
+        const walletModal = document.getElementById('wallet-modal');
+        const closeModal = document.getElementById('close-modal');
+        const metamaskOption = document.getElementById('metamask-option');
+        const walletconnectOption = document.getElementById('walletconnect-option');
+
+        // Stake options
+        const stakeOptions = document.querySelectorAll('.stake-option');
+
+        // Sample stakes data
+        const stakes = [
+            {
+                id: 1,
+                amount: 10000,
+                type: 'fixed',
+                duration: 15552000, // 6 months in seconds
+                apr: 20,
+                startTime: new Date('2023-05-15').getTime(),
+                claimed: false,
+                status: 'active'
+            },
+            {
+                id: 2,
+                amount: 5000,
+                type: 'flexible',
+                apr: 2.5,
+                startTime: new Date('2023-06-10').getTime(),
+                claimed: false,
+                status: 'active'
+            }
+        ];
+
+        // Initialize
+        window.addEventListener('load', () => {
+            setupEventListeners();
+            updateUI();
+        });
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Wallet connection
+            connectBtn.addEventListener('click', showWalletModal);
+            closeModal.addEventListener('click', hideWalletModal);
+            metamaskOption.addEventListener('click', connectMetaMask);
+            walletconnectOption.addEventListener('click', connectWalletConnect);
+
+            // Max buttons
+            maxButton.addEventListener('click', () => {
+                stakeAmount.value = crnBalance;
+                updateEstimatedReward();
+            });
+
+            flexibleMaxButton.addEventListener('click', () => {
+                flexibleAmount.value = crnBalance;
+                updateDailyReward();
+            });
+
+            // Amount inputs
+            stakeAmount.addEventListener('input', updateEstimatedReward);
+            flexibleAmount.addEventListener('input', updateDailyReward);
+
+            // Stake buttons
+            stakeButton.addEventListener('click', stakeTokens);
+            flexibleStakeButton.addEventListener('click', stakeFlexible);
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Show corresponding content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${tabId}-staking`) {
+                            content.classList.add('active');
+                        }
+                    });
+
+                    // Reset inputs when switching tabs
+                    stakeAmount.value = '';
+                    flexibleAmount.value = '';
+                    updateEstimatedReward();
+                    updateDailyReward();
+                });
+            });
+
+            // Stake option selection
+            stakeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    stakeOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+
+                    selectedStakeOption = {
+                        duration: parseInt(option.dataset.duration),
+                        apr: parseInt(option.dataset.apr)
+                    };
+
+                    updateEstimatedReward();
+                });
+            });
+        }
+
+        // Show wallet modal
+        function showWalletModal() {
+            walletModal.classList.add('active');
+        }
+
+        // Hide wallet modal
+        function hideWalletModal() {
+            walletModal.classList.remove('active');
+        }
+
+        // Connect to MetaMask
+        async function connectMetaMask() {
+            hideWalletModal();
+
+            if (window.ethereum) {
+                try {
+                    // Request account access
+                    const accounts = await window.ethereum.request({
+                        method: 'eth_requestAccounts'
+                    });
+
+                    userAccount = accounts[0];
+                    isConnected = true;
+
+                    // Update UI
+                    connectBtn.style.display = 'none';
+                    walletAddressEl.style.display = 'flex';
+                    addressText.textContent = userAccount.substring(0, 6) + '...' + userAccount.substring(38);
+
+                    // Enable buttons
+                    stakeButton.disabled = false;
+                    flexibleStakeButton.disabled = false;
+
+                    // Show notification
+                    showNotification('MetaMask connected successfully!', 'success');
+
+                    // Update UI
+                    updateUI();
+                } catch (error) {
+                    if (error.code === 4001) {
+                        showNotification('MetaMask connection rejected', 'error');
+                    } else {
+                        showNotification('MetaMask connection failed: ' + error.message, 'error');
+                    }
+                }
+            } else {
+                showNotification('MetaMask not installed. Please install it first.', 'error');
+            }
+        }
+
+        // Connect with WalletConnect (mock)
+        function connectWalletConnect() {
+            hideWalletModal();
+            showNotification('WalletConnect integration coming soon!', 'info');
+        }
+
+        // Update UI with wallet data
+        function updateUI() {
+            // Update balances
+            availableBalance.textContent = crnBalance.toLocaleString();
+            flexibleAvailable.textContent = crnBalance.toLocaleString();
+
+            // Update stakes list
+            renderStakes();
+        }
+
+        // Update estimated reward for fixed staking
+        function updateEstimatedReward() {
+            if (!selectedStakeOption || !stakeAmount.value) {
+                estimatedReward.textContent = '0';
+                stakeButton.disabled = !isConnected;
+                return;
+            }
+
+            const amount = parseFloat(stakeAmount.value);
+            if (isNaN(amount)) {
+                estimatedReward.textContent = '0';
+                stakeButton.disabled = !isConnected;
+                return;
+            }
+
+            if (amount < 5000) {
+                stakeButton.disabled = true;
+                return;
+            } else {
+                stakeButton.disabled = false;
+            }
+
+            // Calculate estimated reward based on APR and lock period
+            const days = selectedStakeOption.duration / 86400;
+            const reward = amount * (selectedStakeOption.apr / 100) * (days / 365);
+            estimatedReward.textContent = reward.toFixed(0);
+        }
+
+        // Update daily reward for flexible staking
+        function updateDailyReward() {
+            if (!flexibleAmount.value) {
+                dailyReward.textContent = '0';
+                flexibleStakeButton.disabled = !isConnected;
+                return;
+            }
+
+            const amount = parseFloat(flexibleAmount.value);
+            if (isNaN(amount)) {
+                dailyReward.textContent = '0';
+                flexibleStakeButton.disabled = !isConnected;
+                return;
+            }
+
+            // Enable button if amount is valid
+            flexibleStakeButton.disabled = !isConnected || amount <= 0;
+
+            // Calculate daily reward
+            const apr = 2.5; // Fixed APR for flexible staking
+            const dailyRewardValue = amount * (apr / 100) / 365;
+            dailyReward.textContent = dailyRewardValue.toFixed(0);
+        }
+
+        // Stake tokens (fixed)
+        function stakeTokens() {
+            const amount = parseFloat(stakeAmount.value);
+            if (!selectedStakeOption || isNaN(amount) || amount < 5000) {
+                showNotification('Please enter a valid amount (minimum 5,000 CRN)', 'error');
+                return;
+            }
+
+            if (amount > crnBalance) {
+                showNotification('Insufficient CRN balance', 'error');
+                return;
+            }
+
+            // Create a new stake
+            const newStake = {
+                id: stakes.length + 1,
+                amount: amount,
+                type: 'fixed',
+                duration: selectedStakeOption.duration,
+                apr: selectedStakeOption.apr,
+                startTime: Date.now(),
+                claimed: false,
+                status: 'active'
+            };
+
+            stakes.push(newStake);
+
+            // Update balance
+            crnBalance -= amount;
+
+            // Update UI
+            updateUI();
+            stakeAmount.value = '';
+            updateEstimatedReward();
+
+            showNotification(`${amount.toLocaleString()} CRN staked successfully!`, 'success');
+        }
+
+        // Stake tokens (flexible)
+        function stakeFlexible() {
+            const amount = parseFloat(flexibleAmount.value);
+            if (isNaN(amount) || amount <= 0) {
+                showNotification('Please enter a valid amount', 'error');
+                return;
+            }
+
+            if (amount > crnBalance) {
+                showNotification('Insufficient CRN balance', 'error');
+                return;
+            }
+
+            // Create a new stake
+            const newStake = {
+                id: stakes.length + 1,
+                amount: amount,
+                type: 'flexible',
+                apr: 2.5,
+                startTime: Date.now(),
+                claimed: false,
+                status: 'active'
+            };
+
+            stakes.push(newStake);
+
+            // Update balance
+            crnBalance -= amount;
+
+            // Update UI
+            updateUI();
+            flexibleAmount.value = '';
+            updateDailyReward();
+
+            showNotification(`${amount.toLocaleString()} CRN staked flexibly!`, 'success');
+        }
+
+        // Render stakes list
+        function renderStakes() {
+            if (stakes.length === 0) {
+                stakesList.innerHTML = '<div class="empty-stakes">No active stakes found. Stake tokens to start earning rewards!</div>';
+                return;
+            }
+
+            stakesList.innerHTML = '';
+
+            stakes.forEach(stake => {
+                const stakeItem = document.createElement('div');
+                stakeItem.className = 'stake-item';
+
+                // Calculate time values
+                const startDate = new Date(stake.startTime);
+                const endDate = stake.type === 'fixed' ? new Date(stake.startTime + stake.duration) : null;
+                const now = Date.now();
+
+                // Calculate progress for fixed staking
+                let progress = 0;
+                let status = stake.status;
+                let statusText = 'Active';
+
+                if (stake.type === 'fixed') {
+                    const elapsed = now - stake.startTime;
+                    progress = Math.min(100, (elapsed / stake.duration) * 100);
+
+                    if (progress >= 100 && !stake.claimed) {
+                        status = 'completed';
+                        statusText = 'Ready to Claim';
+                    } else if (stake.claimed) {
+                        status = 'completed';
+                        statusText = 'Claimed';
+                    }
+                } else {
+                    // Flexible staking - no end date
+                    statusText = 'Active';
+                }
+
+                stakeItem.innerHTML = `
+                    <div class="stake-header">
+                        <div class="stake-amount">${stake.amount.toLocaleString()} CRN</div>
+                        <div class="stake-status status-${status}">${statusText}</div>
+                    </div>
+                    <div class="stake-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Type</span>
+                            <span class="detail-value">${stake.type === 'fixed' ? 'Fixed Term' : 'Flexible'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Start Date</span>
+                            <span class="detail-value">${formatDate(startDate)}</span>
+                        </div>
+                        ${stake.type === 'fixed' ? `
+                        <div class="detail-item">
+                            <span class="detail-label">End Date</span>
+                            <span class="detail-value">${formatDate(endDate)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Duration</span>
+                            <span class="detail-value">${formatDuration(stake.duration)}</span>
+                        </div>
+                        ` : `
+                        <div class="detail-item">
+                            <span class="detail-label">Unbonding Period</span>
+                            <span class="detail-value">6 Hours</span>
+                        </div>
+                        `}
+                    </div>
+                    <div class="stake-details">
+                        <div class="detail-item">
+                            <span class="detail-label">APR</span>
+                            <span class="detail-value">${stake.apr}%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Est. Reward</span>
+                            <span class="detail-value">${calculateEstimatedReward(stake).toLocaleString()} CRN</span>
+                        </div>
+                    </div>
+                    ${stake.type === 'fixed' ? `
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                    ` : ''}
+                    <button class="withdraw-btn" ${status !== 'completed' ? 'disabled' : ''}>
+                        ${stake.claimed ? 'Claimed' : 'Claim Rewards'}
+                    </button>
+                `;
+
+                stakesList.appendChild(stakeItem);
+            });
+        }
+
+        // Format date as MM/DD/YYYY
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // Format duration in days
+        function formatDuration(seconds) {
+            const days = Math.round(seconds / (24 * 60 * 60));
+            return `${days} Days`;
+        }
+
+        // Calculate estimated reward
+        function calculateEstimatedReward(stake) {
+            const now = Date.now();
+            const elapsedSeconds = (now - stake.startTime) / 1000;
+
+            if (stake.type === 'fixed') {
+                const elapsedDays = elapsedSeconds / (24 * 60 * 60);
+                return Math.floor(stake.amount * (stake.apr / 100) * (elapsedDays / 365));
+            } else {
+                // Flexible staking - daily rewards
+                const elapsedDays = elapsedSeconds / (24 * 60 * 60);
+                return Math.floor(stake.amount * (stake.apr / 100) * (elapsedDays / 365));
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            notification.className = `notification ${type} show`;
+            notificationMessage.textContent = message;
+
+            // Set appropriate icon
+            if (type === 'success') {
+                notificationIcon.className = 'fas fa-check-circle notification-icon';
+            } else if (type === 'error') {
+                notificationIcon.className = 'fas fa-exclamation-circle notification-icon';
+            } else {
+                notificationIcon.className = 'fas fa-info-circle notification-icon';
+            }
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

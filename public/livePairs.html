@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Trading Pairs | Dexil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/topbar.css">
+    <style>
+        :root {
+            /* Vibrant color palette */
+            --primary: #6e3bff;
+            --primary-dark: #4a1fd1;
+            --primary-light: #f0ebff;
+            --accent-1: #00f0ff;
+            --accent-2: #ff3d8b;
+            --accent-3: #ffb800;
+            --dark: #1a1a2e;
+            --darker: #0d0d1a;
+            --light: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent-1) 100%);
+
+            /* Text colors */
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #ffffff;
+
+            /* Utility colors */
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        /* Live Pairs Container */
+        .live-pairs-container {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .live-pairs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .live-pairs-title {
+            font-size: 1.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .refresh-btn {
+            padding: 10px 20px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-btn:hover {
+            background: linear-gradient(90deg, var(--accent-1), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 59, 255, 0.4);
+        }
+
+        .refresh-btn .fa-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Live Pairs Table */
+        .live-pairs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .live-pairs-table th {
+            text-align: left;
+            padding: 15px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(110, 59, 255, 0.3);
+        }
+
+        .live-pairs-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(110, 59, 255, 0.1);
+        }
+
+        .live-pairs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .live-pairs-table tr:hover td {
+            background: rgba(110, 59, 255, 0.1);
+        }
+
+        .pair-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pair-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(110, 59, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-1);
+        }
+
+        .price-change {
+            font-weight: 600;
+        }
+
+        .price-change.positive {
+            color: var(--success);
+        }
+
+        .price-change.negative {
+            color: var(--danger);
+        }
+
+        /* Loading State */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(110, 59, 255, 0.2);
+            border-top: 4px solid var(--accent-1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+        }
+
+        /* Error State */
+        .error-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+            color: var(--danger);
+        }
+
+        .error-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Chain Filter */
+        .chain-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chain-btn {
+            padding: 8px 16px;
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .chain-btn.active {
+            background: var(--gradient);
+            border-color: transparent;
+        }
+
+        .chain-btn:hover:not(.active) {
+            background: rgba(110, 59, 255, 0.3);
+        }
+
+        .chain-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .live-pairs-container {
+                padding: 20px;
+            }
+
+            .live-pairs-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .live-pairs-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h1>Dexil</h1>
+            </div>
+            <div class="app-version">v2.1.0</div>
+        </div>
+
+        <div class="nav-label">Main</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link" id="token-generator-link">
+                    <i class="fas fa-fire"></i>
+                    <span>Token Generator</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-lock"></i>
+                    <span>Staking</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="livePairs.html" class="nav-link" id="pairs-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Live Pairs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="verify.html" class="nav-link">
+                    <i class="fas fa-check"></i>
+                    <span>Validate</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Tools</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>DEX Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="bot.html" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Telegram Bot</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    <span>Contract Deploy</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Community</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community Hub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="page-title">Dexil Dashboard</h1>
+            <div class="wallet-container">
+                <button class="connect-wallet">
+                    <span class="wallet-text">Connect Wallet</span>
+                    <span class="wallet-icon"></span>
+                </button>
+                <div class="wallet-dropdown">
+                    <button class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask"
+                            width="24">
+                        MetaMask
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="walletconnect" disabled>
+                        <img src="https://walletconnect.com/walletconnect-logo.svg" alt="WalletConnect" width="24">
+                        WalletConnect (Coming Soon)
+                    </button>
+                    <button class="wallet-option disabled" data-wallet="coinbase" disabled>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2821/2821637.png" alt="Coinbase" width="24">
+                        Coinbase (Coming Soon)
+                    </button>
+                </div>
+                <div class="wallet-address" style="display: none;">
+                    <span class="address-text">0x000...000</span>
+                    <button class="disconnect-wallet">Disconnect</button>
+                </div>
+            </div>
+        </div>
+        <div class="live-pairs-container">
+            <div class="live-pairs-header">
+                <h1 class="live-pairs-title">Live Trading Pairs</h1>
+                <button class="refresh-btn" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Loading trading pairs...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="errorState">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Failed to load trading pairs</h3>
+                <p id="errorMessage">Please try again later</p>
+                <button class="refresh-btn" id="retryBtn" style="margin-top: 20px;">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Retry</span>
+                </button>
+            </div>
+
+            <!-- Table will be inserted here by JavaScript -->
+            <div id="pairsTableContainer"></div>
+        </div>
+    </div>
+
+    <script src="/js/shared/shared.js"></script>
+    <script type="module" src="/js/shared/load-components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+        type="application/javascript"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const livePairsLink = document.getElementById('pairs-link');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            livePairsLink.classList.add('active');
+
+            const refreshBtn = document.getElementById('refreshBtn');
+            const retryBtn = document.getElementById('retryBtn');
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const pairsTableContainer = document.getElementById('pairsTableContainer');
+            const chainButtons = document.querySelectorAll('.chain-btn');
+
+            let refreshInterval;
+            let currentChain = 'all';
+
+
+            // Manual refresh
+            refreshBtn.addEventListener('click', function () {
+                fetchTradingPairs();
+            });
+
+            // Retry after error
+            retryBtn.addEventListener('click', function () {
+                fetchTradingPairs();
+            });
+
+            // Start the auto-refresh
+            function startAutoRefresh() {
+                clearInterval(refreshInterval);
+                refreshInterval = setInterval(fetchTradingPairs, 3000); // 3 seconds
+            }
+
+            // Fetch trading pairs from API
+            async function fetchTradingPairs() {
+                try {
+                    // Show loading state
+                    loadingState.style.display = 'flex';
+                    errorState.style.display = 'none';
+                    pairsTableContainer.innerHTML = '';
+                    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
+
+                    // Simulate API call (replace with your actual API endpoint)
+                    var pairsResponse = await window.app.apiClient.get("livePairs")
+                    // Process the response
+                    renderTradingPairs(pairsResponse.data);
+
+                    // Hide loading state
+                    loadingState.style.display = 'none';
+                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+
+                    // Restart auto-refresh
+                    startAutoRefresh();
+                } catch (error) {
+                    console.error('Error fetching trading pairs:', error);
+
+                    // Show error state
+                    loadingState.style.display = 'none';
+                    errorState.style.display = 'flex';
+                    document.getElementById('errorMessage').textContent = error.message || 'Failed to load trading pairs';
+                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+
+                    // Restart auto-refresh
+                    startAutoRefresh();
+                }
+            }
+
+            // Render trading pairs in the table
+            function renderTradingPairs(pairs) {
+                if (!pairs || pairs.length === 0) {
+                    pairsTableContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 30px;">No trading pairs found</p>';
+                    return;
+                }
+
+                // Create table HTML
+                let tableHTML = `
+                        <table class="live-pairs-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Symbol</th>
+                                    <th>Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                // Add rows for each pair
+                pairs.forEach(pair => {
+
+                    tableHTML += `
+                            <tr>
+                                <td>${pair.name}</td>
+    
+                                <td>${pair.symbol}</td>
+                            <td>
+                                <a href="https://etherscan.io/address/${pair.address}" target="_blank" class="btn btn-sm btn-custom">
+                                    Go To Contract
+                                </a>
+                            </td>
+                            </tr>
+                        `;
+                });
+
+                tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+
+                // Insert table into container
+                pairsTableContainer.innerHTML = tableHTML;
+            }
+
+            // Initial load
+            fetchTradingPairs();
+        });
+
+    </script>
+</body>
+
+</html>

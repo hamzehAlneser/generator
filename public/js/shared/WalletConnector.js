@@ -2,7 +2,6 @@ import { Constants, Response } from './Classes.js';
 
 export class WalletConnector {
     ethChainID = 1
-    sepoliaChainID = 11155111
     //#region Constructor % Getters
     constructor(options = {}) {
         // Default options
@@ -30,6 +29,9 @@ export class WalletConnector {
 
     async init() {
         // Check for saved wallet connection
+        if (!window.ethereum) {
+            localStorage.removeItem('walletAddress');
+        }
         const savedAddress = localStorage.getItem('walletAddress');
         if (savedAddress) {
             await this.initEthers();
@@ -58,7 +60,7 @@ export class WalletConnector {
         if (!this.provider) {
             throw new Error('No provider available');
         }
-        const network = await provider.getNetwork()
+        const network = await this.provider.getNetwork()
         return network.chainId
     }
 
@@ -152,8 +154,8 @@ export class WalletConnector {
             ]);
 
             // Validate chain if required
-            if (network.chainId !== this.ethChainID && network.chainId !== this.sepoliaChainID) {
-                return Response.error(`Please switch to Ethereum or Sepolia (testing) network `)
+            if (network.chainId !== this.ethChainID) {
+                return Response.error(`Please switch to Ethereum Mainnet `)
             }
 
             return Response.success()

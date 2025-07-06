@@ -1,0 +1,120 @@
+/* Bill Modal Styles */
+.bill-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13, 13, 26, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.bill-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bill-modal-content {
+    background: var(--dark);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(110, 59, 255, 0.3);
+    overflow: hidden;
+}
+
+.bill-header {
+    background: var(--gradient);
+    padding: 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.bill-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.8rem;
+}
+
+.bill-details {
+    padding: 25px;
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bill-row.total {
+    font-weight: 600;
+    border-bottom: none;
+    padding-top: 20px;
+    color: var(--accent-1);
+}
+
+.bill-actions {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bill-btn {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.bill-btn.cancel {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+}
+
+.bill-btn.cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bill-btn.proceed {
+    background: var(--gradient);
+    color: white;
+}
+
+.bill-btn.proceed:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--accent-1));
+}
+
+/* Animation */
+@keyframes billIn {
+    0% {
+        transform: translateY(20px) scale(0.95);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.bill-modal.active .bill-modal-content {
+    animation: billIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
