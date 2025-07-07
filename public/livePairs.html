@@ -483,14 +483,14 @@
                     errorState.style.display = 'none';
                     pairsTableContainer.innerHTML = '';
                     refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
-                    const appClient = window.app.apiClient.get("livePairs")
+                    const appClient = window.app.apiClient
                     while (!appClient) {
-                        appClient = window.app.apiClient.get("livePairs")
+                        appClient = window.app.apiClient
                     }
                     // Simulate API call (replace with your actual API endpoint)
-                    var pairsResponse =
-                        // Process the response
-                        renderTradingPairs(pairsResponse.data);
+                    var pairsResponse = appClient.get("livePairs")
+                    // Process the response
+                    renderTradingPairs(pairsResponse.data);
 
                     // Hide loading state
                     loadingState.style.display = 'none';
