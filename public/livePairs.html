@@ -454,7 +454,7 @@
             const errorState = document.getElementById('errorState');
             const pairsTableContainer = document.getElementById('pairsTableContainer');
             const chainButtons = document.querySelectorAll('.chain-btn');
-
+            let stoppingLoader = false
             let refreshInterval;
             let currentChain = 'all';
 
@@ -472,6 +472,7 @@
             // Start the auto-refresh
             function startAutoRefresh() {
                 clearInterval(refreshInterval);
+                stoppingLoader = true
                 refreshInterval = setInterval(fetchTradingPairs, 3000); // 3 seconds
             }
 
@@ -479,10 +480,12 @@
             async function fetchTradingPairs() {
                 try {
                     // Show loading state
-                    loadingState.style.display = 'flex';
-                    errorState.style.display = 'none';
-                    pairsTableContainer.innerHTML = '';
-                    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
+                    if (!stoppingLoader) {
+                        loadingState.style.display = 'flex';
+                        errorState.style.display = 'none';
+                        pairsTableContainer.innerHTML = '';
+                        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
+                    }
 
                     // Simulate API call (replace with your actual API endpoint)
                     var pairsResponse = await window.app.apiClient.get("livePairs")
