@@ -470,9 +470,9 @@
             });
 
             // Start the auto-refresh
-            function startAutoRefresh() {
+            function startAutoRefresh(fromError) {
                 clearInterval(refreshInterval);
-                stoppingLoader = true
+                if (!fromError) stoppingLoader = true
                 refreshInterval = setInterval(fetchTradingPairs, 3000); // 3 seconds
             }
 
@@ -505,7 +505,7 @@
                     refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
 
                     // Restart auto-refresh
-                    startAutoRefresh();
+                    startAutoRefresh(true);
                 }
             }
 
