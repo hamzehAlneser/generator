@@ -483,9 +483,14 @@
                     errorState.style.display = 'none';
                     pairsTableContainer.innerHTML = '';
                     refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
-                    const appClient = window.app.apiClient
+                    var windowApp = window.app
+                    while (!windowApp) {
+                        windowApp = window.app
+                    }
+
+                    const appClient = windowApp.apiClient
                     while (!appClient) {
-                        appClient = window.app.apiClient
+                        appClient = windowApp.apiClient
                     }
                     // Simulate API call (replace with your actual API endpoint)
                     var pairsResponse = appClient.get("livePairs")
