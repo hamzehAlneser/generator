@@ -1,9 +1,9 @@
 export async function verifyContract(postData, contractAddress) {
-    // postData.contractAddress = contractAddress;
-    // var verifyResponse = await window.app.apiClient.post("verify", postData)
+    postData.contractAddress = contractAddress;
+    var verifyResponse = await window.app.apiClient.post("verify", postData)
     await new Promise(resolve => setTimeout(resolve, 1500));
-    // if (verifyResponse.hasErrors()) throw new Error(verifyResponse.firstError())
-    // return verifyResponse.data
+    if (verifyResponse.hasErrors()) throw new Error(verifyResponse.firstError())
+    return verifyResponse.data
 }
 
 export async function verifyManual(contractAddress, isOptimization, tokenName) {

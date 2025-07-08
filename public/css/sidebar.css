@@ -121,3 +121,60 @@
     background: rgba(0, 240, 255, 0.2);
     transform: translateY(-3px);
 }
+
+/* Badge Base Style */
+.nav-badge {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    top: -1px;
+    /* Optical alignment */
+}
+
+/* Color Variations via Data Attributes */
+.nav-badge[data-label="beta"] {
+    background: rgba(0, 240, 255, 0.15);
+    color: #00f0ff;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+}
+
+.nav-badge[data-label="soon"] {
+    background: rgba(255, 59, 110, 0.15);
+    color: #ff3b6e;
+    border: 1px solid rgba(255, 59, 110, 0.4);
+}
+
+/* Optional Pulse Animation for Attention */
+.nav-badge[data-label="beta"]::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 12px;
+    border: 1px solid #00f0ff;
+    animation: pulse 2s infinite;
+    opacity: 0;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+}

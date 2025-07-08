@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="./css/sidebar.css">
     <link rel="stylesheet" href="./css/topbar.css">
     <style>
-        .logo-container {
+        .logo-container2 {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
         }
 
-        .logo {
+        .logo2 {
             width: 50px;
             height: 50px;
             background: var(--gradient);
@@ -411,38 +411,36 @@
     <div class="sidebar">
         <div class="logo-container">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-coins"></i>
-                </div>
+                <img style="width: 40px; height: 40px;" src="content/logo.png" alt="">
                 <h1>Dexil</h1>
             </div>
-            <div class="app-version">v2.1.0</div>
         </div>
 
         <div class="nav-label">Main</div>
         <ul class="nav-links">
-            <li class="nav-item">
-                <a href="index.html" class="nav-link active" id="dashboard-link">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a href="deploy.html" class="nav-link" id="token-generator-link">
                     <i class="fas fa-fire"></i>
                     <span>Token Generator</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="staking.html" class="nav-link">
                     <i class="fas fa-lock"></i>
                     <span>Staking</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="livePairs.html" class="nav-link" id="pairs-link">
                     <i class="fas fa-exchange-alt"></i>
                     <span>Live Pairs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="verify.html" class="nav-link" id="validate-link">
+                    <i class="fas fa-check"></i>
+                    <span>Validate</span>
                 </a>
             </li>
         </ul>
@@ -452,7 +450,8 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="fas fa-chart-line"></i>
-                    <span>DEX Analytics</span>
+                    <span>Analytics</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -465,6 +464,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-code"></i>
                     <span>Contract Deploy</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
                 </a>
             </li>
         </ul>
@@ -508,7 +508,7 @@
     </div>
     <div class="main-content" id="main-content">
         <div class="top-bar">
-            <h1 class="page-title">Dexil Dashboard</h1>
+            <h1 class="page-title">Dexil Console</h1>
             <div class="wallet-container">
                 <button class="connect-wallet">
                     <span class="wallet-text">Connect Wallet</span>

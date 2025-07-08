@@ -8,6 +8,7 @@ import { addLiquidity } from './openTrading.js';
 const tokenGeneratorLink = document.getElementById('token-generator-link');
 const deployBtn = document.getElementById('deploy-btn');
 const deploymentModal = document.getElementById('deployment-modal');
+const closeModal = document.getElementById('close-modal');
 const progressBar = document.getElementById('progress-bar');
 const deploymentLinks = document.getElementById('deployment-links');
 
@@ -20,21 +21,6 @@ document.getElementById('deploy-form').addEventListener('submit', async function
             behavior: 'smooth'
         });
 
-        // const validData = await validateWalletAndGetFormData(e.target)
-
-        // showDeplymentModel()
-
-        // const prepareResponse = await prepareContract(validData)
-        // const contractAddress = await startDeploy(prepareResponse.contractData, validData.liquidity, prepareResponse.validatedData);
-
-        // await Promise.all([
-        //     verifyContract(prepareResponse.validatedData, contractAddress),
-        //     openTrading(contractAddress, prepareResponse.validatedData.liquidity, prepareResponse.contractData.abi),
-        //     complete()
-        // ]);
-
-        // await finalize(contractAddress, prepareResponse.validatedData.isOptimization, prepareResponse.validatedData.tokenName);
-
         const validData = await validateWalletAndGetFormData(e.target)
 
         showDeplymentModel()
@@ -42,12 +28,12 @@ document.getElementById('deploy-form').addEventListener('submit', async function
         const prepareResponse = await prepareContract(validData)
         const contractAddress = await startDeploy(prepareResponse.contractData, validData.liquidity, prepareResponse.validatedData);
 
-        await Promise.all([
-            verifyContract(prepareResponse.validatedData, contractAddress),
-            openTrading(contractAddress, prepareResponse.validatedData.liquidity, prepareResponse.contractData.abi),
-        ]);
-        complete()
+        const verifyPromise = verifyContract(prepareResponse.validatedData, contractAddress)
+            .catch(err => console.error('verifyContract failed:', err));
 
+        await openTrading(contractAddress, prepareResponse.validatedData.liquidity, prepareResponse.contractData.abi)
+        await complete()
+        await verifyPromise;
         await finalize(contractAddress, prepareResponse.validatedData.isOptimization, prepareResponse.validatedData.tokenName);
     }
     catch (error) {
@@ -69,7 +55,7 @@ function showDeplymentModel() {
     // Reset progress
     progressBar.style.width = '0%';
     deploymentLinks.style.display = 'none';
-
+    closeModal.style.display = 'none'
     // Reset steps
     document.querySelectorAll('.step').forEach(step => {
         step.classList.remove('completed', 'in-progress');
@@ -165,8 +151,8 @@ async function startDeploy(contractData, liquidity, formData) {
 
     hideBillModal()
 
-    // const contractAddress = await deploy(deployTxData.deployTX, deployTxData.costDetails.gasLimit, deployTxData.costDetails.gasPriceResult, formData)
-    return '0x45ab9DC5b672733431Cfac59FED3e309ca83BF60'
+    const contractAddress = await deploy(deployTxData.deployTX, deployTxData.costDetails.gasLimit, deployTxData.costDetails.gasPriceResult, formData)
+    return contractAddress
 }
 
 function waitForClick(selector) {
@@ -210,7 +196,7 @@ async function activateStep(stepIndex) {
 //#region Open Trading
 async function openTrading(contractAddress, liquidity, abi) {
     await activateStep(2)
-    // await addLiquidity(contractAddress, liquidity, abi)
+    await addLiquidity(contractAddress, liquidity, abi)
     await new Promise(resolve => setTimeout(resolve, 2000));
 
 }
@@ -237,9 +223,21 @@ async function finalize(contractAddress, isOptimization, tokenName) {
     //     await verifyManual(contractAddress, isOptimization, tokenName)
     // });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     deploymentLinks.style.display = 'flex';
+    showCloseDeployModal()
     await activateStep(5)
+}
+
+function showCloseDeployModal() {
+    closeModal.style.display = 'block'
+    // Close modal
+    closeModal.addEventListener('click', function () {
+        deploymentModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        closeModal.style.display = 'none'
+
+    });
 }
 //#endregion

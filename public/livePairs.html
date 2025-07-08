@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Trading Pairs | Ethora</title>
+    <title>Live Pairs</title>
+    <link rel="icon" type="image/png" href="content/logotitle.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/responsive.css">
@@ -276,25 +277,22 @@
     <div class="sidebar">
         <div class="logo-container">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <h1>Ethora</h1>
+                <img style="width: 40px; height: 40px;" src="content/logo.png" alt="">
+                <h1>Dexil</h1>
             </div>
-            <div class="app-version">v2.1.0</div>
         </div>
 
         <div class="nav-label">Main</div>
         <ul class="nav-links">
             <li class="nav-item">
-                <a href="index.html" class="nav-link" id="token-generator-link">
+                <a href="deploy.html" class="nav-link" id="token-generator-link">
                     <i class="fas fa-fire"></i>
                     <span>Token Generator</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="staking.html" class="nav-link">
                     <i class="fas fa-lock"></i>
                     <span>Staking</span>
                 </a>
@@ -306,7 +304,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="verify.html" class="nav-link">
+                <a href="verify.html" class="nav-link" id="validate-link">
                     <i class="fas fa-check"></i>
                     <span>Validate</span>
                 </a>
@@ -318,7 +316,8 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="fas fa-chart-line"></i>
-                    <span>DEX Analytics</span>
+                    <span>Analytics</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -331,6 +330,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-code"></i>
                     <span>Contract Deploy</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
                 </a>
             </li>
         </ul>
@@ -374,7 +374,7 @@
     </div>
     <div class="main-content">
         <div class="top-bar">
-            <h1 class="page-title">Ethora Dashboard</h1>
+            <h1 class="page-title">Dexil Console</h1>
             <div class="wallet-container">
                 <button class="connect-wallet">
                     <span class="wallet-text">Connect Wallet</span>
@@ -461,6 +461,7 @@
 
             // Manual refresh
             refreshBtn.addEventListener('click', function () {
+                stoppingLoader = false
                 fetchTradingPairs();
             });
 
