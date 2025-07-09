@@ -4,324 +4,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dexil V2 Telegram Bot</title>
+    <title>Dexil - Advanced Token Creation Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./css/sidebar.css">
-    <link rel="stylesheet" href="./css/topbar.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        .logo-container2 {
+        :root {
+            --primary: #6e3bff;
+            --primary-dark: #4a1fd1;
+            --primary-light: #f0ebff;
+            --accent-1: #00f0ff;
+            --accent-2: #ff3d8b;
+            --accent-3: #ffb800;
+            --dark: #0d0d1a;
+            --darker: #070712;
+            --dark-card: rgba(18, 19, 38, 0.7);
+            --darker-card: rgba(10, 10, 22, 0.7);
+            --light: #ffffff;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a0a0b0;
+            --text-light: #ffffff;
+            --success: #00c087;
+            --warning: #f0b90b;
+            --danger: #ea3943;
+            --info: #00c1ff;
+            --border-radius: 8px;
+            --border-color: rgba(35, 35, 57, 0.5);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --glass: rgba(18, 19, 38, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Enhanced Telegram Bot Section */
+        .telegram-section {
+            background: linear-gradient(135deg, #1a1a3a, #0a0a1f);
+            padding: 120px 20px;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(110, 59, 255, 0.2);
+            border-bottom: 1px solid rgba(110, 59, 255, 0.2);
+            z-index: 5;
+            margin-left: 250px;
+        }
+
+        .telegram-container {
+            max-width: 1300px;
+            margin: 0 auto;
             display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            position: relative;
+            z-index: 10;
         }
 
-        .logo2 {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        .telegram-content {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            background: rgba(20, 21, 45, 0.6);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .app-name h1 {
-            font-size: 1.8rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-        }
-
-        .app-version {
-            font-size: 0.9rem;
-            color: var(--accent-1);
-            opacity: 0.7;
-        }
-
-
-        .hero-section {
-            text-align: center;
-            max-width: 800px;
-            margin-bottom: 50px;
-        }
-
-        .hero-icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--accent-1);
-            margin-bottom: 20px;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: #aaa;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-
-        .launch-btn {
-            padding: 15px 40px;
-            background: var(--gradient);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin: 15px 0;
-            text-decoration: none;
-        }
-
-        .launch-btn:hover {
-            background: linear-gradient(90deg, var(--accent-1), var(--primary));
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(110, 59, 255, 0.4);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+        .telegram-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 900px;
-            margin-top: 30px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-1));
+        }
+
+        .telegram-icon {
+            font-size: 4rem;
+            color: var(--accent-1);
+            margin-bottom: 25px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .telegram-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .telegram-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-1);
+            border-radius: 2px;
+        }
+
+        .telegram-subtitle {
+            color: var(--accent-1);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .telegram-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .telegram-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .feature-card {
-            background: rgba(26, 26, 46, 0.7);
-            border: 1px solid rgba(110, 59, 255, 0.5);
-            border-radius: 18px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
+            background: rgba(110, 59, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(110, 59, 255, 0.25);
+            transform: translateY(-5px);
             border-color: var(--accent-1);
+            box-shadow: var(--shadow-md);
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 1.5rem;
+            color: var(--accent-1);
+            margin-bottom: 15px;
         }
 
         .feature-title {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: #fff;
-            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
         }
 
-        .feature-description {
-            color: #aaa;
-            font-size: 1rem;
-            line-height: 1.6;
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
-        .how-it-works {
-            max-width: 1000px;
-            margin-right: 50px;
-            margin-top: 50px;
+        .telegram-cta {
             text-align: center;
-            width: 100%;
         }
 
-        .section-title {
-            font-size: 2.2rem;
-            margin-bottom: 40px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 50px;
-        }
-
-        .step {
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-1));
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(110, 59, 255, 0.4);
+            text-decoration: none;
             position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .telegram-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-1), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .telegram-btn:hover::before {
+            opacity: 1;
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        .telegram-btn i {
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .telegram-btn:hover i {
+            transform: rotate(15deg);
+        }
+
+        .telegram-mockup {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .phone-mockup {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            margin: 0 auto;
+            background: #0a0a1f;
+            border-radius: 40px;
+            border: 10px solid #1a1a3a;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transform: rotateY(-10deg);
+            transition: var(--transition);
+        }
+
+        .phone-mockup:hover {
+            transform: rotateY(0);
+        }
+
+        .phone-screen {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            right: 10px;
+            bottom: 20px;
+            background: #12152e;
+            border-radius: 30px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            background: rgba(26, 26, 46, 0.9);
-            border: 1px solid rgba(110, 59, 255, 0.5);
-            border-radius: 18px;
-            padding: 35px 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            align-items: center;
+        }
+
+        .phone-header {
+            background: var(--primary-dark);
+            padding: 20px 15px 10px;
             text-align: center;
+            position: relative;
         }
 
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(110, 59, 255, 0.3);
-            border-color: var(--accent-1);
-        }
-
-        .step-icon {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
-            color: var(--accent-1);
-            height: 80px;
-            width: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(110, 59, 255, 0.15);
-            border-radius: 50%;
-            padding: 15px;
-        }
-
-        .step-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .step-description {
-            color: #aaa;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        .bot-btn-container {
-            margin-top: 60px;
-            text-align: center;
-            width: 100%;
-        }
-
-        .qr-section {
-            margin-left: 300px;
-            margin-top: 50px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .qr-title {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            color: var(--accent-1);
-        }
-
-        .qr-container {
+        .phone-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 5px;
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 20px;
+            border-radius: 5px;
         }
 
-        .qr-placeholder {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(45deg, #6e3bff, #00f0ff);
-            border-radius: 8px;
+        .bot-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .bot-status {
+            font-size: 0.8rem;
+            color: var(--accent-1);
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .bot-message {
+            background: #2a2a5a;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+            color: var(--text-primary);
+        }
+
+        .user-message {
+            background: var(--primary);
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+            color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background: #1a1a3a;
+        }
+
+        .input-field {
+            flex: 1;
+            background: #2a2a5a;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            color: var(--darker);
+            border: none;
+            margin-left: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .qr-instruction {
-            font-size: 1rem;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 20px;
+        .send-btn:hover {
+            transform: scale(1.1);
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
-            font-size: 0.95rem;
-            border-top: 1px solid var(--primary);
-            background: rgba(26, 26, 46, 0.9);
-        }
-
-        .contract-links {
+        .floating-bot {
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, var(--primary-dark) 100%);
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
         }
 
-        .contract-link {
-            color: var(--accent-1);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        .floating-bot i {
+            font-size: 3.5rem;
+            color: white;
         }
 
-        .contract-link:hover {
-            text-decoration: underline;
+        .floating-element {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            filter: blur(2px);
+            opacity: 0.4;
+        }
+
+        .floating-cube {
+            width: 120px;
+            height: 120px;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg) rotateY(45deg);
+            animation: floatCube 25s infinite linear;
+        }
+
+        .floating-cube .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            background: rgba(110, 59, 255, 0.05);
+        }
+
+        .floating-pyramid {
+            width: 100px;
+            height: 100px;
+            transform-style: preserve-3d;
+            animation: floatPyramid 20s infinite linear;
+        }
+
+        .floating-pyramid .base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid var(--accent-1);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
 
         /* Animations */
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        .hero-icon {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .step {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -334,74 +449,91 @@
             }
         }
 
-        .step:nth-child(1) {
-            animation-delay: 0.1s;
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
         }
 
-        .step:nth-child(2) {
-            animation-delay: 0.2s;
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
-        .step:nth-child(3) {
-            animation-delay: 0.3s;
+        @keyframes floatCube {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-50px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(360deg);
+            }
         }
 
-        .step:nth-child(4) {
-            animation-delay: 0.4s;
+        @keyframes floatPyramid {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-40px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(360deg);
+            }
         }
 
         /* Responsive styles */
-        @media (max-width: 900px) {
-            .steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+        @media (max-width: 992px) {
+            .telegram-container {
+                flex-direction: column;
+            }
+
+            .telegram-content,
+            .telegram-mockup {
+                width: 100%;
+            }
+
+            .phone-mockup {
+                width: 280px;
+                height: 560px;
             }
         }
 
-        @media (max-width: 768px) {
-            .hero-title {
+        @media (max-width: 576px) {
+            .telegram-features {
+                grid-template-columns: 1fr;
+            }
+
+            .telegram-title {
                 font-size: 2rem;
             }
 
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-
-            .hero-description {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .launch-btn {
+            .telegram-btn {
+                padding: 15px 30px;
                 font-size: 1.1rem;
-                padding: 12px 30px;
-            }
-
-            .steps {
-                grid-template-columns: 1fr;
-                max-width: 500px;
-                margin: 30px auto;
-            }
-
-            .step {
-                padding: 35px 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            header {
-                padding: 15px 20px;
-            }
-
-            .app-name h1 {
-                font-size: 1.5rem;
             }
         }
     </style>
@@ -506,154 +638,162 @@
             </a>
         </div>
     </div>
-    <div class="main-content" id="main-content">
-        <div class="top-bar">
-            <h1 class="page-title">Dexil Console</h1>
-            <div class="wallet-container">
-                <button class="connect-wallet">
-                    <span class="wallet-text">Connect Wallet</span>
-                    <span class="wallet-icon"></span>
-                </button>
-                <div class="wallet-dropdown">
-                    <button class="wallet-option" data-wallet="metamask">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask"
-                            width="24">
-                        MetaMask
-                    </button>
-                    <button class="wallet-option disabled" data-wallet="walletconnect" disabled>
-                        <img src="https://walletconnect.com/walletconnect-logo.svg" alt="WalletConnect" width="24">
-                        WalletConnect (Coming Soon)
-                    </button>
-                    <button class="wallet-option disabled" data-wallet="coinbase" disabled>
-                        <img src="https://cdn-icons-png.flaticon.com/512/2821/2821637.png" alt="Coinbase" width="24">
-                        Coinbase (Coming Soon)
-                    </button>
-                </div>
-                <div class="wallet-address" style="display: none;">
-                    <span class="address-text">0x000...000</span>
-                    <button class="disconnect-wallet">Disconnect</button>
-                </div>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="hero-section">
-                <div class="hero-icon">
+    <!-- Telegram Bot Section -->
+    <section class="telegram-section" id="telegram">
+        <div class="telegram-container">
+            <div class="telegram-content">
+                <div class="telegram-icon">
                     <i class="fab fa-telegram"></i>
                 </div>
-                <h1 class="hero-title">Dexil V2 Telegram Bot</h1>
-                <h2 class="hero-subtitle">Deploy Tokens Directly from Telegram</h2>
-                <p class="hero-description">
-                    Create and deploy custom tokens with advanced tokenomics directly from Telegram.
-                    Our bot guides you through the entire process - no coding required!
+                <h2 class="telegram-title">Telegram Deployment Bot</h2>
+                <div class="telegram-subtitle">Create Tokens Directly from Telegram</div>
+                <p class="telegram-description">
+                    Launch secure, rugproof tokens with auto-burned liquidity directly from your Telegram app.
+                    No desktop needed - perfect for quick launches on the go.
                 </p>
 
-                <a href="https://t.me/DexilV2Bot" class="launch-btn" target="_blank">
-                    <i class="fab fa-telegram"></i>
-                    Launch Telegram Bot
-                </a>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Instant Deployment</h3>
-                    <p class="feature-description">
-                        Deploy tokens in minutes with our guided Telegram interface.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3 class="feature-title">Advanced Tokenomics</h3>
-                    <p class="feature-description">
-                        Set custom taxes, wallet limits, and liquidity parameters.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Secure & Audited</h3>
-                    <p class="feature-description">
-                        Audited contracts ensure your token deployment is secure.
-                    </p>
-                </div>
-            </div>
-
-            <div class="how-it-works">
-                <h2 class="section-title">How It Works</h2>
-
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">
-                            <i class="fab fa-telegram"></i>
+                <div class="telegram-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <h3 class="step-title">Start the Bot</h3>
-                        <p class="step-description">
-                            Launch our Telegram bot and begin configuring your token.
-                        </p>
+                        <h3 class="feature-title">Mobile-First Experience</h3>
+                        <p class="feature-desc">Full token creation workflow optimized for mobile devices.</p>
                     </div>
 
-                    <div class="step">
-                        <div class="step-icon">
-                            <i class="fas fa-sliders-h"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h3 class="step-title">Configure Token</h3>
-                        <p class="step-description">
-                            Set token parameters: name, symbol, supply, and taxes.
-                        </p>
+                        <h3 class="feature-title">Enterprise Security</h3>
+                        <p class="feature-desc">Same security guarantees as our web platform with auto LP burn.</p>
                     </div>
 
-                    <div class="step">
-                        <div class="step-icon">
-                            <i class="fas fa-link"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
                         </div>
-                        <h3 class="step-title">Payment & Deployment</h3>
-                        <p class="step-description">
-                            Receive payment link, complete in MetaMask for deployment.
-                        </p>
+                        <h3 class="feature-title">Instant Deployment</h3>
+                        <p class="feature-desc">Deploy tokens in under 2 minutes with simple step-by-step commands.</p>
                     </div>
 
-                    <div class="step">
-                        <div class="step-icon">
-                            <i class="fas fa-rocket"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
                         </div>
-                        <h3 class="step-title">Token Launched</h3>
-                        <p class="step-description">
-                            Your token is deployed! Receive contract details immediately.
-                        </p>
+                        <h3 class="feature-title">Real-Time Verification</h3>
+                        <p class="feature-desc">Contracts automatically verified on-chain after deployment.</p>
                     </div>
                 </div>
 
-                <div class="bot-btn-container">
-                    <a href="https://t.me/DexilV2Bot" class="launch-btn" target="_blank">
-                        <i class="fab fa-telegram"></i>
-                        Start Using the Bot Now
+                <div class="telegram-cta">
+                    <a href="https://t.me/DexilBot" target="_blank" class="telegram-btn">
+                        <i class="fab fa-telegram"></i> Launch Telegram Bot
                     </a>
                 </div>
             </div>
 
-            <div class="qr-section">
-                <h3 class="qr-title">Scan to Open in Telegram</h3>
-                <div class="qr-container">
-                    <div class="qr-placeholder">Dexil V2 Bot QR</div>
+            <div class="telegram-mockup">
+                <div class="floating-bot">
+                    <i class="fas fa-robot"></i>
                 </div>
-                <p class="qr-instruction">
-                    Open Telegram on mobile, tap the search icon, choose "Scan QR Code",
-                    and point your camera at this code.
-                </p>
+
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="phone-header">
+                            <div class="bot-name">Dexil Bot</div>
+                            <div class="bot-status">Online • Ready to deploy</div>
+                        </div>
+
+                        <div class="chat-container">
+                            <div class="chat-message bot-message">
+                                Hello! Ready to create your token? Let's get started!
+                            </div>
+
+                            <div class="chat-message user-message">
+                                /create_token
+                            </div>
+
+                            <div class="chat-message bot-message">
+                                Great! First, choose a name for your token:
+                            </div>
+
+                            <div class="chat-message user-message">
+                                CryptoGem
+                            </div>
+
+                            <div class="chat-message bot-message">
+                                Excellent! Now enter token symbol (3-5 characters):
+                            </div>
+
+                            <div class="chat-message user-message">
+                                GEM
+                            </div>
+
+                            <div class="chat-message bot-message">
+                                Perfect! Liquidity will be automatically burned for security. Your token will be ready
+                                in 60 seconds! 🚀
+                            </div>
+                        </div>
+
+                        <div class="chat-input">
+                            <input type="text" class="input-field" placeholder="Type a message...">
+                            <button class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <script src="/js/shared/shared.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
-        type="application/javascript"></script>
-    <script type="module" src="/js/shared/load-components.js"></script>
+
+        <!-- Floating elements -->
+        <div class="floating-element" style="top: 20%; left: 5%;">
+            <div class="floating-cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+        </div>
+
+        <div class="floating-element" style="top: 70%; left: 85%;">
+            <div class="floating-pyramid">
+                <div class="base"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Animated chat messages
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatContainer = document.querySelector('.chat-container');
+            const messages = chatContainer.querySelectorAll('.chat-message');
+
+            // Animate messages sequentially
+            messages.forEach((message, index) => {
+                message.style.opacity = '0';
+                message.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    message.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    message.style.opacity = '1';
+                    message.style.transform = 'translateY(0)';
+                }, 500 + (index * 400));
+            });
+
+            // Floating bot animation
+            const floatingBot = document.querySelector('.floating-bot');
+            floatingBot.style.opacity = '0';
+
+            setTimeout(() => {
+                floatingBot.style.transition = 'opacity 1s ease';
+                floatingBot.style.opacity = '1';
+            }, 1500);
+        });
+    </script>
 </body>
 
 </html>

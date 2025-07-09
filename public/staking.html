@@ -772,9 +772,13 @@
             </div>
         </div>
         <header>
-            <div class="logo-container2">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-lock"></i>
+                </div>
                 <div class="app-name">
-                    <h1>Dexil Console</h1>
+                    <h1>DEXIL V2 Staking</h1>
+                    <div class="app-version">v2.1.0</div>
                 </div>
             </div>
 
@@ -801,7 +805,7 @@
                     <div class="card-icon">
                         <i class="fas fa-coins"></i>
                     </div>
-                    <h2 class="card-title">Stake V2 Tokens</h2>
+                    <h2 class="card-title">Stake DEXIL Tokens</h2>
                 </div>
 
                 <div class="tabs">
@@ -815,65 +819,74 @@
                         <div class="stake-option" data-duration="2592000" data-apr="3">
                             <div class="stake-duration">1 Month</div>
                             <div class="stake-apr">3% APR</div>
-                            <div class="stake-reward">~2,466 V2 reward</div>
+                            <div class="stake-reward">~2,466 DEXIL reward</div>
                         </div>
                         <div class="stake-option" data-duration="7776000" data-apr="10">
                             <div class="stake-duration">3 Months</div>
                             <div class="stake-apr">10% APR</div>
-                            <div class="stake-reward">~24,658 V2 reward</div>
+                            <div class="stake-reward">~24,658 DEXIL reward</div>
                         </div>
                         <div class="stake-option" data-duration="10368000" data-apr="15">
                             <div class="stake-duration">4 Months</div>
                             <div class="stake-apr">15% APR</div>
-                            <div class="stake-reward">~49,315 V2 reward</div>
+                            <div class="stake-reward">~49,315 DEXIL reward</div>
                         </div>
                         <div class="stake-option" data-duration="15552000" data-apr="25">
                             <div class="stake-duration">6 Months</div>
                             <div class="stake-apr">25% APR</div>
-                            <div class="stake-reward">~123,288 V2 reward</div>
+                            <div class="stake-reward">~123,288 DEXIL reward</div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Amount to Stake (Minimum 1,000,000 V2)</label>
+                        <label>Amount to Stake (Minimum 100,000 DEXIL)</label>
                         <div class="input-group">
-                            <input type="number" id="stakeAmount" placeholder="Enter V2 amount">
+                            <input type="number" id="stakeAmount" placeholder="Enter DEXIL amount">
                             <button class="max-btn" id="maxButton">MAX</button>
                         </div>
                         <div class="balance-info">
-                            <span>Available: <span id="availableBalance">0</span> V2</span>
-                            <span>Est. Reward: <span id="estimatedReward">0</span> V2</span>
+                            <span>Available: <span id="availableBalance">0</span> DEXIL</span>
+                            <span>Est. Reward: <span id="estimatedReward">0</span> DEXIL</span>
                         </div>
                     </div>
 
                     <button class="stake-btn" id="stakeButton" disabled>
                         <i class="fas fa-lock"></i> Confirm Stake
                     </button>
+
+                    <div class="disclaimer">
+                        <i class="fas fa-exclamation-circle"></i> Fixed staking locks your tokens for the selected
+                        period. Early withdrawal is not possible.
+                    </div>
                 </div>
 
                 <!-- Flexible Staking Content -->
                 <div class="tab-content" id="flexible-staking">
                     <div class="stake-option selected" style="margin-bottom: 25px;">
                         <div class="stake-duration">Flexible Staking</div>
-                        <div class="stake-apr">1.5% APR</div>
+                        <div class="stake-apr">1.5% </div>
                         <div class="stake-reward">Unstake anytime with 3-hour unbonding period</div>
                     </div>
 
                     <div class="form-group">
                         <label>Amount to Stake (No minimum)</label>
                         <div class="input-group">
-                            <input type="number" id="flexibleAmount" placeholder="Enter V2 amount">
+                            <input type="number" id="flexibleAmount" placeholder="Enter DEXIL amount">
                             <button class="max-btn" id="flexibleMaxButton">MAX</button>
                         </div>
                         <div class="balance-info">
-                            <span>Available: <span id="flexibleAvailable">0</span> V2</span>
-                            <span>Est. Daily Reward: <span id="dailyReward">0</span> V2</span>
+                            <span>Available: <span id="flexibleAvailable">0</span> DEXIL</span>
+                            <span>Est. Daily Reward: <span id="dailyReward">0</span> DEXIL</span>
                         </div>
                     </div>
 
                     <button class="stake-btn" id="flexibleStakeButton" disabled>
                         <i class="fas fa-lock"></i> Stake Flexibly
                     </button>
+
+                    <div class="disclaimer">
+                        <i class="fas fa-info-circle"></i> Flexible staking allows unstaking at any time.
+                    </div>
                 </div>
             </div>
 
@@ -887,15 +900,15 @@
                 </div>
 
                 <div class="stakes-list" id="stakesList">
-                    <div class="empty-stakes">No active stakes found. Stake tokens to start earning rewards!</div>
+                    <div class="empty-stakes">Connect your wallet to view your stakes</div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Dexil Staking Platform - Secure and Transparent Staking</p>
+            <p>DEXIL V2 Staking Platform - Secure and Transparent Staking</p>
             <div class="contract-links">
-                <a href="#" class="contract-link" target="_blank">V2 Token Contract</a>
+                <a href="#" class="contract-link" target="_blank">DEXIL Token Contract</a>
                 <a href="#" class="contract-link" target="_blank">Staking Contract</a>
                 <a href="#" class="contract-link" target="_blank">Official Website</a>
             </div>
@@ -909,7 +922,7 @@
                 <h2 class="modal-title">Connect Wallet</h2>
                 <button class="close-modal" id="close-modal">&times;</button>
             </div>
-            <p>Connect with MetaMask to stake V2 tokens</p>
+            <p>Connect with MetaMask to stake DEXIL tokens</p>
 
             <div class="wallet-option" id="metamask-option">
                 <i class="fab fa-metamask wallet-icon"></i>
@@ -929,11 +942,10 @@
     <script>
         // Global variables
         let isConnected = false;
-        const walletAddress = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
-        const ethPrice = 3000; // Fixed ETH price for demo
-        let selectedStakeOption = null;
         let userAccount = null;
-        let rdpBalance = 10000000; // 10 million V2 for demo
+        let dexilBalance = 0;
+        let selectedStakeOption = null;
+        let stakes = [];
 
         // DOM Elements
         const connectBtn = document.getElementById('connect-btn');
@@ -958,44 +970,38 @@
         const walletModal = document.getElementById('wallet-modal');
         const closeModal = document.getElementById('close-modal');
         const metamaskOption = document.getElementById('metamask-option');
-
-        // Sample stakes data
-        const stakes = [
-            {
-                id: 1,
-                amount: 5000000,
-                type: 'fixed',
-                duration: 15552000, // 6 months in seconds
-                apr: 25,
-                startTime: new Date('2023-06-01').getTime(),
-                claimed: false,
-                status: 'active'
-            },
-            {
-                id: 2,
-                amount: 2000000,
-                type: 'flexible',
-                apr: 1.5,
-                startTime: new Date('2023-06-15').getTime(),
-                claimed: false,
-                status: 'active'
-            },
-            {
-                id: 3,
-                amount: 3000000,
-                type: 'fixed',
-                duration: 7776000, // 3 months in seconds
-                apr: 10,
-                startTime: new Date('2023-05-20').getTime(),
-                claimed: true,
-                status: 'completed'
-            }
-        ];
+        const stakeOptions = document.querySelectorAll('.stake-option');
 
         // Initialize
         window.addEventListener('load', () => {
             setupEventListeners();
             updateUI();
+
+            // Set up stake option selection
+            stakeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    stakeOptions.forEach(opt => opt.classList.remove('selected'));
+
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+
+                    // Store selected option
+                    selectedStakeOption = {
+                        duration: parseInt(option.dataset.duration),
+                        apr: parseInt(option.dataset.apr)
+                    };
+
+                    // Update estimated reward
+                    updateEstimatedReward();
+                });
+            });
+
+            // Set up initial flexible option
+            const flexibleOption = document.querySelector('#flexible-staking .stake-option');
+            if (flexibleOption) {
+                flexibleOption.classList.add('selected');
+            }
         });
 
         // Set up event listeners
@@ -1007,12 +1013,12 @@
 
             // Max buttons
             maxButton.addEventListener('click', () => {
-                stakeAmount.value = rdpBalance;
+                stakeAmount.value = dexilBalance;
                 updateEstimatedReward();
             });
 
             flexibleMaxButton.addEventListener('click', () => {
-                flexibleAmount.value = rdpBalance;
+                flexibleAmount.value = dexilBalance;
                 updateDailyReward();
             });
 
@@ -1079,6 +1085,9 @@
                     walletAddressEl.style.display = 'flex';
                     addressText.textContent = userAccount.substring(0, 6) + '...' + userAccount.substring(38);
 
+                    // Simulate balance retrieval
+                    dexilBalance = 10000000; // 10 million DEXIL for demo
+
                     // Enable buttons
                     stakeButton.disabled = false;
                     flexibleStakeButton.disabled = false;
@@ -1088,6 +1097,9 @@
 
                     // Update UI
                     updateUI();
+
+                    // Load stakes
+                    loadStakes();
                 } catch (error) {
                     if (error.code === 4001) {
                         showNotification('MetaMask connection rejected', 'error');
@@ -1100,11 +1112,18 @@
             }
         }
 
+        // Load user stakes
+        function loadStakes() {
+            // In a real app, this would load from the blockchain
+            stakes = [];
+            renderStakes();
+        }
+
         // Update UI with wallet data
         function updateUI() {
             // Update balances
-            availableBalance.textContent = rdpBalance.toLocaleString();
-            flexibleAvailable.textContent = rdpBalance.toLocaleString();
+            availableBalance.textContent = dexilBalance.toLocaleString();
+            flexibleAvailable.textContent = dexilBalance.toLocaleString();
 
             // Update stakes list
             renderStakes();
@@ -1125,7 +1144,7 @@
                 return;
             }
 
-            if (amount < 1000000) {
+            if (amount < 100000) {
                 stakeButton.disabled = true;
                 return;
             } else {
@@ -1156,22 +1175,22 @@
             // Enable button if amount is valid
             flexibleStakeButton.disabled = !isConnected || amount <= 0;
 
-            // Calculate daily reward
-            const apr = 1.5; // Fixed APR for flexible staking
-            const dailyRewardValue = amount * (apr / 100) / 365;
+            // Calculate daily reward (1.5% monthly = 0.05% daily)
+            const dailyRate = 1.5 / 30; // 1.5% per month / 30 days
+            const dailyRewardValue = amount * (dailyRate / 100);
             dailyReward.textContent = dailyRewardValue.toFixed(0);
         }
 
         // Stake tokens (fixed)
         function stakeTokens() {
             const amount = parseFloat(stakeAmount.value);
-            if (!selectedStakeOption || isNaN(amount) || amount < 1000000) {
-                showNotification('Please enter a valid amount (minimum 1,000,000 V2)', 'error');
+            if (!selectedStakeOption || isNaN(amount) || amount < 100000) {
+                showNotification('Please enter a valid amount (minimum 100,000 DEXIL)', 'error');
                 return;
             }
 
-            if (amount > rdpBalance) {
-                showNotification('Insufficient V2 balance', 'error');
+            if (amount > dexilBalance) {
+                showNotification('Insufficient DEXIL balance', 'error');
                 return;
             }
 
@@ -1190,14 +1209,14 @@
             stakes.push(newStake);
 
             // Update balance
-            rdpBalance -= amount;
+            dexilBalance -= amount;
 
             // Update UI
             updateUI();
             stakeAmount.value = '';
             updateEstimatedReward();
 
-            showNotification(`${amount.toLocaleString()} V2 staked successfully!`, 'success');
+            showNotification(`${amount.toLocaleString()} DEXIL staked successfully!`, 'success');
         }
 
         // Stake tokens (flexible)
@@ -1208,8 +1227,8 @@
                 return;
             }
 
-            if (amount > rdpBalance) {
-                showNotification('Insufficient V2 balance', 'error');
+            if (amount > dexilBalance) {
+                showNotification('Insufficient DEXIL balance', 'error');
                 return;
             }
 
@@ -1218,7 +1237,7 @@
                 id: stakes.length + 1,
                 amount: amount,
                 type: 'flexible',
-                apr: 1.5,
+                apr: 1.5, // Monthly rate of 1.5%
                 startTime: Date.now(),
                 claimed: false,
                 status: 'active'
@@ -1227,18 +1246,23 @@
             stakes.push(newStake);
 
             // Update balance
-            rdpBalance -= amount;
+            dexilBalance -= amount;
 
             // Update UI
             updateUI();
             flexibleAmount.value = '';
             updateDailyReward();
 
-            showNotification(`${amount.toLocaleString()} V2 staked flexibly!`, 'success');
+            showNotification(`${amount.toLocaleString()} DEXIL staked flexibly!`, 'success');
         }
 
         // Render stakes list
         function renderStakes() {
+            if (!isConnected) {
+                stakesList.innerHTML = '<div class="empty-stakes">Connect your wallet to view your stakes</div>';
+                return;
+            }
+
             if (stakes.length === 0) {
                 stakesList.innerHTML = '<div class="empty-stakes">No active stakes found. Stake tokens to start earning rewards!</div>';
                 return;
@@ -1278,7 +1302,7 @@
 
                 stakeItem.innerHTML = `
                     <div class="stake-header">
-                        <div class="stake-amount">${stake.amount.toLocaleString()} V2</div>
+                        <div class="stake-amount">${stake.amount.toLocaleString()} DEXIL</div>
                         <div class="stake-status status-${status}">${statusText}</div>
                     </div>
                     <div class="stake-details">
@@ -1308,12 +1332,12 @@
                     </div>
                     <div class="stake-details">
                         <div class="detail-item">
-                            <span class="detail-label">APR</span>
+                            <span class="detail-label">${stake.type === 'flexible' ? 'Monthly Rate' : 'APR'}</span>
                             <span class="detail-value">${stake.apr}%</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Est. Reward</span>
-                            <span class="detail-value">${calculateEstimatedReward(stake).toLocaleString()} V2</span>
+                            <span class="detail-value">${calculateEstimatedReward(stake).toLocaleString()} DEXIL</span>
                         </div>
                     </div>
                     ${stake.type === 'fixed' ? `
@@ -1354,9 +1378,10 @@
                 const elapsedDays = elapsedSeconds / (24 * 60 * 60);
                 return Math.floor(stake.amount * (stake.apr / 100) * (elapsedDays / 365));
             } else {
-                // Flexible staking - daily rewards
+                // Flexible staking - monthly rewards
                 const elapsedDays = elapsedSeconds / (24 * 60 * 60);
-                return Math.floor(stake.amount * (stake.apr / 100) * (elapsedDays / 365));
+                const monthlyRate = stake.apr / 100; // 1.5% monthly
+                return Math.floor(stake.amount * monthlyRate * (elapsedDays / 30));
             }
         }
 
