@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dexil Token Generation Platform - Documentation</title>
+    <link rel="icon" type="image/png" href="content/logotitle.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+
+
+    <style>
+        :root {
+            --primary: #6e3bff;
+            --primary-dark: #4a1fd1;
+            --primary-light: #f0ebff;
+            --accent-1: #00f0ff;
+            --accent-2: #ff3d8b;
+            --accent-3: #ffb800;
+            --dark: #1a1a2e;
+            --darker: #0d0d1a;
+            --light: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent-1) 100%);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --card-bg: rgba(30, 30, 50, 0.8);
+            --border-color: rgba(110, 59, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--dark);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-icon {
+            background: var(--gradient);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: rgba(110, 59, 255, 0.15);
+        }
+
+        nav a.active {
+            background: rgba(110, 59, 255, 0.25);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent-1);
+            border-radius: 50%;
+        }
+
+        .container {
+            margin-left: 250px;
+            display: flex;
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            padding: 0 2rem;
+        }
+
+        .menubar {
+            width: 280px;
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 90px;
+            height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+
+        .menubar h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            color: var(--accent-1);
+        }
+
+        .menubar ul {
+            list-style: none;
+        }
+
+        .menubar li {
+            margin-bottom: 0.7rem;
+        }
+
+        .menubar a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .menubar a:hover {
+            background: rgba(110, 59, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .menubar a.active {
+            background: rgba(110, 59, 255, 0.25);
+            font-weight: 600;
+            border-left: 3px solid var(--accent-1);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background: rgba(30, 30, 50, 0.5);
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-1);
+            text-decoration: none;
+        }
+
+        .breadcrumbs i {
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+
+        .doc-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doc-content {
+            padding: 1rem 0;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--accent-1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+            color: var(--accent-3);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: #d0d0e7;
+        }
+
+        strong {
+            color: var(--accent-1);
+        }
+
+        ol,
+        ul {
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: #d0d0e7;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-1);
+        }
+
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            color: var(--accent-3);
+        }
+
+        .feature-card .icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(110, 59, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .doc-note {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 4px solid var(--accent-1);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+            color: #d0d0e7;
+        }
+
+        .doc-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+            color: #d0d0e7;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: var(--primary);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            min-width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .param-table th {
+            background: rgba(110, 59, 255, 0.3);
+            padding: 1rem;
+            text-align: left;
+            color: var(--accent-1);
+            font-weight: 600;
+        }
+
+        .param-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #d0d0e7;
+        }
+
+        .param-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .platform {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .platform:hover {
+            background: rgba(110, 59, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            background: var(--dark);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .menubar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                height: auto;
+                padding: 1rem;
+                background: var(--dark);
+            }
+
+            .main-content {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .doc-title {
+                font-size: 2rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo-container">
+            <a style="text-decoration: none;" href="index">
+                <div class="logo">
+                    <img style="width: 40px; height: 40px;" src="content/logo.png" alt="">
+                    <h1>Dexil</h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="nav-label">Main</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="deploy" class="nav-link" id="token-generator-link">
+                    <i class="fas fa-fire"></i>
+                    <span>Token Generator</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="staking" class="nav-link">
+                    <i class="fas fa-lock"></i>
+                    <span>Staking</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="livePairs" class="nav-link" id="pairs-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Live Pairs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="Validate" class="nav-link" id="validate-link">
+                    <i class="fas fa-check"></i>
+                    <span>Validate</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Tools</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="bot" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Telegram Bot</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="deployer" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    <span>Contract Deploy</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-label">Community</div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="https://t.me/DexilTG" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community Hub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="docs" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="social-links">
+            <a href="https://x.com/dexil_io" class="social-link">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://t.me/DexilTG" class="social-link">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+
+        <aside class="menubar">
+            <h3><i class="fas fa-book"></i> Documentation</h3>
+            <ul>
+                <li><a href="#intro" class="active">Introduction</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#burn">Auto-Burn Feature</a></li>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#post">Post-Deployment</a></li>
+                <li><a href="#token-params">Token Parameters</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#gas">Gas Optimization</a></li>
+                <li><a href="#integrations">Exchange Integrations</a></li>
+                <li><a href="#advanced">Advanced Features</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+
+
+            <h1 class="doc-title" id="intro"> Dexil Token Generation Platform</h1>
+            <div class="doc-content">
+                <p>Welcome to <strong>Dexil</strong>, Dexil empowers anyone to
+                    effortlessly create and deploy secure ERC‑20 tokens on Ethereum. We've maintained our robust
+                    auto‑burn and liquidity tools, now with a fresh identity and improved experience.</p>
+
+                <h2 id="how"><i class="fas fa-cogs"></i> How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Connect your wallet</h3>
+                            <p>Use MetaMask, Trust Wallet, or any Web3-enabled wallet to connect to the platform</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Fill in token details</h3>
+                            <p>Configure your token parameters: name, symbol, supply, taxes, and auto-burn settings</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Submit and deploy to Ethereum</h3>
+                            <p>Review your settings and deploy your token with one click</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Get verified on Etherscan</h3>
+                            <p>Our system automatically submits your contract for verification</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Add liquidity</h3>
+                            <p>Provide initial liquidity with ETH and your tokens (LP tokens are auto-burned)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3>Go live on trading platforms</h3>
+                            <p>Your token is instantly available on DEXs and trackers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="burn"><i class="fas fa-fire"></i> Secure Auto-Burn Feature</h2>
+                <p>Dexil automatically burns a portion of your token supply based on pre-set conditions, during or right
+                    after deployment. This ensures immutable supply control and builds community trust.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-sliders-h"></i></span>Creating contracts while we ensure
+                            burn</h3>
+                        <p>Ensures that the deployer burns his liquidity once trading is opened</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-shield-alt"></i></span> Immutable Burn</h3>
+                        <p>Once burned, tokens are permanently removed from circulation with no possibility of reversal.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-chart-line"></i></span> Price Impact</h3>
+                        <p>Reduce supply to increase scarcity and potential value appreciation.</p>
+                    </div>
+                </div>
+
+                <h2 id="requirements"><i class="fas fa-check-circle"></i> Platform Requirements</h2>
+                <ul>
+                    <li><strong>Web3 wallet:</strong> Currently MetaMask, we will integrate with other wallets such as
+                        Trust Wallet, Coinbase Wallet, or
+                        WalletConnect-compatible wallet</li>
+                    <li><strong>ETH balance:</strong> Minimum 0.02 ETH for service fee + gas costs</li>
+                    <li><strong>Browser:</strong> Latest version of Chrome with JavaScript
+                        enabled and metamask extention installed</li>
+                    <li><strong>Review:</strong> Carefully review all settings before final deployment</li>
+                </ul>
+
+                <h2 id="post"><i class="fas fa-rocket"></i> Post-Deployment Overview</h2>
+                <ul>
+                    <li>Transaction hash and Etherscan link provided immediately</li>
+                    <li>Liquidity automatically locked through LP token burning</li>
+                    <li>Token listed on Uniswap within minutes</li>
+                    <li>Share contract address and market links with your community</li>
+                    <li>Access to token management dashboard</li>
+                </ul>
+
+                <div class="doc-note">
+                    <p><i class="fas fa-info-circle"></i> Need help? Email us at <strong>support@dexil.com</strong> or
+                        join our Telegram community for real-time assistance.</p>
+                </div>
+
+                <h2 id="token-params"><i class="fas fa-sliders-h"></i> Token Parameters Explained</h2>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                            <th>Constraints</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Token Name</strong></td>
+                            <td>Full name of your token (e.g., "Dexil Token")</td>
+                            <td>3-30 characters</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Token Symbol</strong></td>
+                            <td>Ticker symbol (e.g., "DXL")</td>
+                            <td>3-6 uppercase characters</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Supply</strong></td>
+                            <td>Initial token quantity minted to deployer</td>
+                            <td>1M - 1B tokens (18 decimals)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Buy Tax</strong></td>
+                            <td>Transaction tax applied to purchases</td>
+                            <td>0-15% per transaction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sell Tax</strong></td>
+                            <td>Transaction tax applied to sales</td>
+                            <td>0-15% per transaction</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="security"><i class="fas fa-shield-alt"></i> Security Architecture</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-search"></i></span> Audited Smart Contracts</h3>
+                        <p>All deployment templates undergo rigorous security checks:</p>
+                        <ul>
+                            <li>Static analysis with Slither and MythX</li>
+                            <li>Automated formal verification</li>
+                            <li>Third-party audits by Halborn Security</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-lock"></i></span> LP Protection Mechanism</h3>
+                        <p>Liquidity Pool tokens are automatically sent to dead address (0x00..dead) using our
+                            proprietary <code>BurnRouter</code> system, preventing rug pulls.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-user-shield"></i></span> Ownership Controls</h3>
+                        <p>Optional multi-signature requirements for critical functions and ability to renounce
+                            ownership after deployment.</p>
+                    </div>
+                </div>
+
+                <h2 id="gas"><i class="fas fa-bolt"></i> Gas Optimization</h2>
+                <p>Our deployment contracts use cutting-edge optimizations to reduce your gas costs:</p>
+                <ul>
+                    <li><strong>Bytecode Compression:</strong> Huff assembly for critical functions reduces contract
+                        size</li>
+                    <li><strong>Batch Operations:</strong> Single-transaction deployment flow minimizes interactions
+                    </li>
+                    <li><strong>Gas Refund Optimization:</strong> Maximize storage slot clearing refunds</li>
+                </ul>
+                <div class="doc-note">
+                    <p><i class="fas fa-lightbulb"></i> Typical deployment costs: 650k-850k gas (≈0.006-0.008 ETH at 50
+                        gwei) - 30-40% cheaper than manual deployment</p>
+                </div>
+
+                <h2 id="integrations"><i class="fas fa-exchange-alt"></i> Exchange Integrations</h2>
+                <p>Deployed tokens are automatically indexed by leading platforms:</p>
+                <div class="integrations-grid">
+                    <div class="platform">Uniswap</div>
+                    <div class="platform">Dextools.io</div>
+                    <div class="platform">DexScreener</div>
+                    <div class="platform">Etherscan</div>
+                </div>
+
+                <h2 id="advanced"><i class="fas fa-star"></i> Advanced Features</h2>
+
+                <h3>Post-Deployment Tools</h3>
+                <ul>
+                    <li><strong>Token vesting:</strong> Schedule locked team allocations and investor distributions</li>
+                    <li><strong>Multi-chain bridging:</strong> Bridge to Polygon, BSC, and Arbitrum via LayerZero</li>
+                    <li><strong>Snapshot voting:</strong> Set up governance for community proposals</li>
+                    <li><strong>Staking systems:</strong> Create yield farming opportunities for holders</li>
+                </ul>
+
+                <h2 id="faq"><i class="fas fa-question-circle"></i> Support & FAQ</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-wallet"></i></span> Fees & Costs</h3>
+                        <ul>
+                            <li><strong>Platform fee:</strong> 0.001 ETH flat fee</li>
+                            <li><strong>Gas costs:</strong> Varies by network conditions</li>
+                            <li><strong>Liquidity:</strong> ETH + equivalent token value</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-clock"></i></span> Timing</h3>
+                        <ul>
+                            <li><strong>Deployment:</strong> 15-45 seconds</li>
+                            <li><strong>Verification:</strong> 1-15 minutes</li>
+                            <li><strong>DEX listing:</strong> 2-5 minutes</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-sync-alt"></i></span> Management</h3>
+                        <ul>
+                            <li><strong>Can I burn LP manually?</strong> Dexil does it automatically</li>
+                            <li><strong>Tax adjustments:</strong> Possible only if enabled during deployment</li>
+                            <li><strong>Supply changes:</strong> Fixed after deployment</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="icon"><i class="fas fa-chart-bar"></i></span> Tracking</h3>
+                        <ul>
+                            <li><strong>DEXs:</strong> Dextools, Dexscreener</li>
+                            <li><strong>Aggregators:</strong> CoinGecko, CoinMarketCap</li>
+                            <li><strong>Portfolio:</strong> Zerion, Zapper</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="doc-warning">
+                    <p><i class="fas fa-exclamation-triangle"></i> Important: Once deployed, token parameters including
+                        supply and taxes cannot be changed unless specifically designed with upgradeability during
+                        deployment.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <span>Dexil Token Platform</span>
+            </div>
+            <p>Secure, efficient token deployment on Ethereum</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-medium"></i></a>
+            </div>
+            <p>© 2023 Dexil. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active state in menubar
+                    document.querySelectorAll('.menubar a.active').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight current section in menubar
+        window.addEventListener('scroll', function () {
+            const sections = document.querySelectorAll('h2, h3');
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.menubar a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${currentSection}`) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dexil - Advanced Token Creation Platform</title>
+    <title>Bot</title>
+    <link rel="icon" type="image/png" href="content/logotitle.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="./css/topbar.css">
     <link rel="stylesheet" href="./css/sidebar.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -542,35 +544,37 @@
 <body>
     <div class="sidebar">
         <div class="logo-container">
-            <div class="logo">
-                <img style="width: 40px; height: 40px;" src="content/logo.png" alt="">
-                <h1>Dexil</h1>
-            </div>
+            <a style="text-decoration: none;" href="index">
+                <div class="logo">
+                    <img style="width: 40px; height: 40px;" src="content/logo.png" alt="">
+                    <h1>Dexil</h1>
+                </div>
+            </a>
         </div>
 
         <div class="nav-label">Main</div>
         <ul class="nav-links">
             <li class="nav-item">
-                <a href="deploy.html" class="nav-link" id="token-generator-link">
+                <a href="deploy" class="nav-link" id="token-generator-link">
                     <i class="fas fa-fire"></i>
                     <span>Token Generator</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="staking.html" class="nav-link">
+                <a href="staking" class="nav-link">
                     <i class="fas fa-lock"></i>
                     <span>Staking</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="livePairs.html" class="nav-link" id="pairs-link">
+                <a href="livePairs" class="nav-link" id="pairs-link">
                     <i class="fas fa-exchange-alt"></i>
                     <span>Live Pairs</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="verify.html" class="nav-link" id="validate-link">
+                <a href="Validate" class="nav-link" id="validate-link">
                     <i class="fas fa-check"></i>
                     <span>Validate</span>
                 </a>
@@ -587,13 +591,14 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="bot.html" class="nav-link">
+                <a href="bot" class="nav-link">
                     <i class="fas fa-robot"></i>
                     <span>Telegram Bot</span>
+                    <span class="nav-badge" data-label="soon">Soon</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="deployer" class="nav-link">
                     <i class="fas fa-code"></i>
                     <span>Contract Deploy</span>
                     <span class="nav-badge" data-label="soon">Soon</span>
@@ -604,30 +609,24 @@
         <div class="nav-label">Community</div>
         <ul class="nav-links">
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="https://t.me/DexilTG" class="nav-link">
                     <i class="fas fa-users"></i>
                     <span>Community Hub</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="docs" class="nav-link">
                     <i class="fas fa-book"></i>
                     <span>Documentation</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-headset"></i>
-                    <span>Support</span>
                 </a>
             </li>
         </ul>
 
         <div class="social-links">
-            <a href="#" class="social-link">
+            <a href="https://x.com/dexil_io" class="social-link">
                 <i class="fab fa-twitter"></i>
             </a>
-            <a href="#" class="social-link">
+            <a href="https://t.me/DexilTG" class="social-link">
                 <i class="fab fa-telegram"></i>
             </a>
             <a href="#" class="social-link">
@@ -641,6 +640,7 @@
     <!-- Telegram Bot Section -->
     <section class="telegram-section" id="telegram">
         <div class="telegram-container">
+
             <div class="telegram-content">
                 <div class="telegram-icon">
                     <i class="fab fa-telegram"></i>
@@ -687,7 +687,10 @@
                 </div>
 
                 <div class="telegram-cta">
-                    <a href="https://t.me/DexilBot" target="_blank" class="telegram-btn">
+                    <!-- <a href="https://t.me/DexilBot" target="_blank" class="telegram-btn">
+                        <i class="fab fa-telegram"></i> Launch Telegram Bot
+                    </a> -->
+                    <a class="telegram-btn">
                         <i class="fab fa-telegram"></i> Launch Telegram Bot
                     </a>
                 </div>
