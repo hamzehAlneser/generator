@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethora IDE - Advanced Solidity Editor</title>
+    <title>dexil IDE - Advanced Solidity Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -147,6 +147,7 @@
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
 
         /* Sidebar */
@@ -157,6 +158,7 @@
             flex-direction: column;
             border-right: 1px solid var(--primary);
             overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .file-explorer {
@@ -214,6 +216,9 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .file-item:hover {
@@ -230,6 +235,7 @@
             text-align: center;
             color: var(--accent-1);
             font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         /* Compiler & Deployment Panel */
@@ -453,6 +459,14 @@
             background: rgba(26, 26, 46, 0.8);
             border-bottom: 1px solid var(--primary);
             padding: 0 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .editor-tabs::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
         }
 
         .editor-tab {
@@ -464,6 +478,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .editor-tab.active {
@@ -499,28 +515,26 @@
         .code-editor {
             flex: 1;
             background: var(--editor-bg);
-            overflow: auto;
+            overflow: hidden;
             font-family: 'Inconsolata', monospace;
             font-size: 14px;
             line-height: 1.5;
             color: #f8f8f2;
             padding: 0;
             position: relative;
+            display: flex;
         }
 
         .editor-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: relative;
+            flex: 1;
             overflow: auto;
         }
 
         #editor {
             width: 100%;
             height: 100%;
-            padding: 20px;
+            padding: 20px 20px 20px 50px;
             background: transparent;
             border: none;
             color: #f8f8f2;
@@ -533,10 +547,13 @@
             overflow-wrap: normal;
             overflow-x: auto;
             tab-size: 4;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .line-numbers {
-            position: absolute;
+            position: sticky;
             left: 0;
             top: 0;
             height: 100%;
@@ -548,6 +565,9 @@
             font-size: 14px;
             line-height: 1.5;
             border-right: 1px solid var(--primary);
+            width: 40px;
+            float: left;
+            z-index: 1;
         }
 
         .locked-section {
@@ -580,6 +600,8 @@
             font-family: 'Inconsolata', monospace;
             font-size: 0.9rem;
             transition: height 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .terminal.collapsed {
@@ -594,6 +616,7 @@
             margin-bottom: 10px;
             color: var(--accent-1);
             position: relative;
+            flex-shrink: 0;
         }
 
         .ai-icon {
@@ -628,10 +651,13 @@
         .terminal-content {
             white-space: pre-wrap;
             line-height: 1.5;
+            overflow-y: auto;
+            flex: 1;
         }
 
         .terminal-line {
             margin-bottom: 5px;
+            word-break: break-word;
         }
 
         .terminal-line.info {
@@ -660,10 +686,35 @@
         .terminal-toggle {
             cursor: pointer;
             transition: all 0.3s ease;
+            padding: 5px;
         }
 
         .terminal-toggle:hover {
             color: var(--accent-1);
+        }
+
+        /* Sidebar Toggle */
+        .toggle-sidebar {
+            position: absolute;
+            top: 50%;
+            right: -40px;
+            width: 40px;
+            height: 40px;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--primary);
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 201;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--primary-dark);
         }
 
         /* Responsive */
@@ -678,9 +729,8 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                bottom: 150px;
+                bottom: 0;
                 transform: translateX(-100%);
-                transition: transform 0.3s ease;
                 z-index: 200;
             }
 
@@ -688,21 +738,8 @@
                 transform: translateX(0);
             }
 
-            .toggle-sidebar {
-                position: absolute;
-                top: 50%;
-                right: -40px;
-                width: 40px;
-                height: 40px;
-                background: var(--sidebar-bg);
-                border: 1px solid var(--primary);
-                border-left: none;
-                border-radius: 0 8px 8px 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                z-index: 201;
+            .sidebar.open+.editor-container {
+                margin-left: var(--sidebar-width);
             }
         }
 
@@ -724,36 +761,45 @@
         }
 
         @media (max-width: 576px) {
-
-            .logo h1,
-            .file-name,
-            .explorer-title {
+            .logo h1 {
                 display: none;
             }
 
-            .file-actions {
-                flex-direction: column;
+            .file-name {
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .explorer-title {
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .editor-tab span {
-                display: none;
+                max-width: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .editor-tab {
-                padding: 12px;
+                padding: 12px 15px;
             }
         }
     </style>
 </head>
 
 <body>
+
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="logo">
             <div class="logo-icon">
                 <i class="fas fa-code"></i>
             </div>
-            <h1>Ethora IDE</h1>
+            <h1>dexil IDE</h1>
         </div>
 
         <div class="wallet-container">
@@ -833,7 +879,6 @@
                     <div class="option-group">
                         <label class="option-label">Solidity Version</label>
                         <select class="option-input" id="compiler-version">
-                            <!-- Added versions from 0.8.1 to 0.8.30 -->
                             <option>0.8.0+commit.c7dfd78e</option>
                             <option>0.8.1+commit.df193b15</option>
                             <option>0.8.2+commit.661d1103</option>
@@ -935,7 +980,7 @@
                             <h4 class="burn-title">Liquidity Burn Requirement</h4>
                         </div>
                         <div class="burn-content">
-                            <p>To prevent rug pulls and ensure token stability, Ethora will require burning liquidity
+                            <p>To prevent rug pulls and ensure token stability, dexil will require burning liquidity
                                 pool tokens to permanently lock liquidity.</p>
                             <p>The burn function is locked and cannot be removed or modified.</p>
                         </div>
@@ -953,7 +998,7 @@
                         <label class="option-label">Environment</label>
                         <select class="option-input">
                             <option>Injected Provider (MetaMask)</option>
-                            <option selected>Ethora VM</option>
+                            <option selected>dexil VM</option>
                             <option>WalletConnect</option>
                         </select>
                     </div>
@@ -1063,7 +1108,7 @@ contract SecureToken is ERC20, Ownable {
             </div>
         </div>
         <div class="terminal-content" id="terminal-content">
-            <div class="terminal-line info">Welcome to Ethora AI Assistant v1.2</div>
+            <div class="terminal-line info">Welcome to dexil AI Assistant v1.2</div>
             <div class="terminal-line ai">I'm here to help you with your smart contract development</div>
             <div class="terminal-line">> Liquidity burn function is locked for security</div>
             <div class="terminal-line">> Solidity versions 0.8.1 to 0.8.30 now available</div>
@@ -1193,6 +1238,12 @@ interface IERC20 {
         function initEditor() {
             editor.value = files.token.content;
             updateLineNumbers();
+
+            // Set up scroll synchronization between editor and line numbers
+            const editorWrapper = document.querySelector('.editor-wrapper');
+            editorWrapper.addEventListener('scroll', function () {
+                lineNumbers.scrollTop = editorWrapper.scrollTop;
+            });
         }
 
         // Update line numbers
@@ -1203,6 +1254,10 @@ interface IERC20 {
                 numbers += i + '\n';
             }
             lineNumbers.innerHTML = numbers;
+
+            // Adjust line numbers height to match editor content
+            const editorHeight = editor.scrollHeight;
+            lineNumbers.style.height = `${editorHeight}px`;
         }
 
         // Switch to file
@@ -1249,6 +1304,19 @@ interface IERC20 {
                 '<i class="fas fa-chevron-up"></i>';
         }
 
+        // Toggle sidebar
+        function toggleSidebarVisibility() {
+            sidebar.classList.toggle('open');
+            const icon = toggleSidebar.querySelector('i');
+            if (sidebar.classList.contains('open')) {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            } else {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            }
+        }
+
         // Event listeners
         editor.addEventListener('input', function () {
             files[currentFile].content = editor.value;
@@ -1266,7 +1334,12 @@ interface IERC20 {
 
                 // Move cursor
                 this.selectionStart = this.selectionEnd = start + 4;
+                updateLineNumbers();
             }
+        });
+
+        editor.addEventListener('scroll', function () {
+            lineNumbers.scrollTop = this.scrollTop;
         });
 
         document.querySelectorAll('.file-item').forEach(item => {
@@ -1314,10 +1387,12 @@ interface IERC20 {
                 addressText.textContent = walletAddress.slice(0, 6) + '...' + walletAddress.slice(-4);
 
                 // Update account selector
-                accountSelect.innerHTML = `
-                    <option value="${walletAddress}">Account 1 (${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)})</option>
-                    <option value="0xc0ffee254729296a45a3885639AC7E10F9d54979">Account 2 (c0ffee...54979)</option>
-                `;
+                if (accountSelect) {
+                    accountSelect.innerHTML = `
+                        <option value="${walletAddress}">Account 1 (${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)})</option>
+                        <option value="0xc0ffee254729296a45a3885639AC7E10F9d54979">Account 2 (c0ffee...54979)</option>
+                    `;
+                }
 
                 deployBtn.disabled = false;
                 addTerminalLine('success', 'Wallet connected: ' + walletAddress);
@@ -1373,9 +1448,7 @@ interface IERC20 {
         terminalToggle.addEventListener('click', toggleTerminal);
 
         // Toggle sidebar on mobile
-        toggleSidebar.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-        });
+        toggleSidebar.addEventListener('click', toggleSidebarVisibility);
 
         // Initialize the editor
         initEditor();
@@ -1387,9 +1460,14 @@ interface IERC20 {
 
         // Add welcome message
         setTimeout(() => {
-            addTerminalLine('ai', 'Welcome to Ethora IDE! How can I assist with your contract development today?');
+            addTerminalLine('ai', 'Welcome to dexil IDE! How can I assist with your contract development today?');
             addTerminalLine('ai', 'Note: Deployment functionality is currently under development and coming soon.');
         }, 1000);
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            updateLineNumbers();
+        });
     </script>
 </body>
 
