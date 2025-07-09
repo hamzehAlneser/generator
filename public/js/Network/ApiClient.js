@@ -1,7 +1,8 @@
 import { Constants, Response } from "../shared/Classes.js";
 export class ApiClient {
     constructor(baseURL) {
-        this.baseURL = "https://api.dexil.io/api/"
+        // this.baseURL = "https://api.dexil.io/api/"
+        this.baseURL = "http://localhost:8081/api/"
         this.defaultHeaders = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
